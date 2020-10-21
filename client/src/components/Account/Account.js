@@ -22,22 +22,24 @@ const Account = () => {
                                         document.getElementById("Indicator").style.transform = "translateX(0px)";
                                     }}
                                 >
-                                    Login
+                                    Register
                                 </span>
                                 <span
                                     onClick={() => {
-                                        document.getElementById("RegForm").style.transform = "translateX(0px)";
-                                        document.getElementById("LoginForm").style.transform = "translateX(0px)";
+                                        document.getElementById("RegForm").style.transform = "translateX(0)";
+                                        document.getElementById("LoginForm").style.transform = "translateX(0)";
                                         document.getElementById("Indicator").style.transform = "translateX(100px)";
                                     }}
                                 >
-                                    Register
+                                    Login
                                 </span>
                                 <hr id="Indicator" />
                             </div>
 
+                                  
                             <Login />
                             <Signup />
+                            
                         </div>
                     </div>
                 </div>

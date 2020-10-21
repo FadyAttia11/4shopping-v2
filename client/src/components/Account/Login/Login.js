@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import AuthApi from '../../../context/AuthApi'
+import './Login.css'
 
 const Login = (props) => {
 
@@ -84,8 +85,10 @@ const Login = (props) => {
                     value={password}
                     onChange={e => handlePasswordChange(e)}
                 />
-                <button type="submit" class="btn">Login</button>
+                <button type="submit" className="btn">Login</button>
                 <Link to="" className="forgot-btn">Forgot Password?</Link>
+                <button type="submit" className="btn facebook-color">Login with Facebook</button>
+                <button type="submit" className="btn google-color">Login with Google</button>
             </form>
 
             {errors.length > 0 && (
