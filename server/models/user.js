@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const Task = require('./place')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -45,19 +44,20 @@ const userSchema = new mongoose.Schema({
 }, {
     timestamps: true
 })
-//virtual ==> used to link another model (that are not a property in this model)
-userSchema.virtual('places', { //anyname ==> the virual property name (like owner in the otherhand)
-    ref: 'Place', //the other model name
-    localField: '_id',
-    foreignField: 'ownerID' //the two fields that are the same (equal)
-})
 
-//virtual ==> used to link another model (that are not a property in this model)
-userSchema.virtual('places', { //anyname ==> the virual property name (like owner in the otherhand)
-    ref: 'Place', //the other model name
-    localField: 'name',
-    foreignField: 'ownerName' //the two fields that are the same (equal)
-})
+// //virtual ==> used to link another model (that are not a property in this model)
+// userSchema.virtual('places', { //anyname ==> the virual property name (like owner in the otherhand)
+//     ref: 'Place', //the other model name
+//     localField: '_id',
+//     foreignField: 'ownerID' //the two fields that are the same (equal)
+// })
+
+// //virtual ==> used to link another model (that are not a property in this model)
+// userSchema.virtual('places', { //anyname ==> the virual property name (like owner in the otherhand)
+//     ref: 'Place', //the other model name
+//     localField: 'name',
+//     foreignField: 'ownerName' //the two fields that are the same (equal)
+// })
 
 userSchema.methods.toJSON = function () {
     const user = this
@@ -98,12 +98,12 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
-//delete user tasks when user is removed
-userSchema.pre('remove', async function (next) {
-    const user = this
-    await Task.deleteMany({ ownerID: user._id })
-    next()
-})
+// //delete user tasks when user is removed
+// userSchema.pre('remove', async function (next) {
+//     const user = this
+//     await Task.deleteMany({ ownerID: user._id })
+//     next()
+// })
 
 const User = mongoose.model('User', userSchema)
 
