@@ -17,6 +17,22 @@ select:focus {
     margin: 0 auto 80px;
 }
 
+.all-product .rating a {
+    color: black;
+    margin-left: 10px;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.all-product .fa-star {
+    width: 16px;
+    height: 14px;
+}
+
+.all-product .price-before {
+    margin-top: 10px;
+}
+
 .page-btn span {
     display: inline-block;
     border: 1px solid #ff523b;
@@ -31,4 +47,8 @@ select:focus {
 .page-btn span:hover {
     background: #ff523b;
     color: white;
+}
+
+.product-img {
+    cursor: pointer;
 }

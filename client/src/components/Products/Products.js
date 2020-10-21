@@ -1,9 +1,77 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './Products.css'
+import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
 
 const Products = () => {
+
+    const [items, setItems] = useState([])
+    const[chuncks, setChunks] = useState([])
+    const n = 4 //tweak this to add more items per line
+
+    const history = useHistory()
+
+    useEffect(() => {
+        async function getAllItems() {
+            const items = await getItemFromDB() 
+            // console.log(items)
+            setItems(items)
+        }
+        getAllItems()
+    }, [])
+
+    useEffect(() => { //used to divide the array of products to arrays of 4 products each
+        if(items.length !== 0) {
+            const result = new Array(Math.ceil(items.length / n))
+            .fill()
+            .map(_ => items.splice(0, n))
+            setChunks(result)
+        }
+    }, [items])
+
+    const getItemFromDB = () => {
+        const request = axios.get('/api/items/all')
+                            .then(response => response.data)
+            return request
+    }
+
+
+    const displayChuncks = () => (
+        chuncks.map((chunk, i) => (
+            <div className="row all-product" key={i}>
+                {displayElements(chunk)}
+            </div>
+        )) 
+    )
+
+
+    const displayElements = (chunk) => (
+        chunk.map((item, i) => (
+            <div className="col-4" key={i}>
+                <a onClick={() => {history.push(`/4shopping/product/${item._id}`)}}>
+                    <img src={require('../../img/product-1.jpg')} className="product-img" />
+                </a>
+                <h4>{item.name}</h4>
+                <div className="rating">
+                    <FontAwesomeIcon icon={faStar} className="fa-star" />
+                    <FontAwesomeIcon icon={faStar} className="fa-star" />
+                    <FontAwesomeIcon icon={faStar} className="fa-star" />
+                    <FontAwesomeIcon icon={faStar} className="fa-star" />
+                    <FontAwesomeIcon icon={faStar} className="fa-star" />
+                    <a href="#reviews" data-after="Reviews">{item.reviews.length} reviews</a>
+                </div>
+                <div className="price-wrapper">
+                    <p className="price-before">${item.price} USD</p>
+                    <p className="price-after">${item.salePrice} USD</p>
+                </div>
+            </div>
+        ))
+    )
+
+
+
     return (
         <div className="small-container">
             <div className="row row-2">
@@ -17,169 +85,10 @@ const Products = () => {
                 </select>
             </div>
 
-
-            <div className="row">
-                <div className="col-4">
-                    <img src={require('../../img/product-1.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-
-                <div className="col-4">
-                    <img src={require('../../img/product-2.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-
-                <div className="col-4">
-                    <img src={require('../../img/product-3.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-
-                <div className="col-4">
-                    <img src={require('../../img/product-4.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-            </div>
-
-
-            <div className="row">
-                <div className="col-4">
-                    <img src={require('../../img/product-5.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-
-                <div className="col-4">
-                    <img src={require('../../img/product-6.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-
-                <div className="col-4">
-                    <img src={require('../../img/product-7.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-
-                <div className="col-4">
-                    <img src={require('../../img/product-8.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-4">
-                    <img src={require('../../img/product-9.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-
-                <div className="col-4">
-                    <img src={require('../../img/product-10.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-
-                <div className="col-4">
-                    <img src={require('../../img/product-11.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-
-                <div className="col-4">
-                    <img src={require('../../img/product-12.jpg')} />
-                    <h4>Red Printed T-Shirt</h4>
-                    <div className="rating">
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        <FontAwesomeIcon icon={faStar} className="fa-star" />
-                    </div>
-                    <p>$50.00</p>
-                </div>
-            </div>
-
+            {
+                <div>{displayChuncks()}</div>
+            }
+        
 
             <div className="page-btn">
                 <span>1</span>

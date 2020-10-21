@@ -5,12 +5,8 @@ const router = new express.Router()
 
 
 //create new item
-router.post('/api/items', auth, async (req, res) => {
-    const item = new Item({
-        ...req.body,
-        ownerID: req.user._id,
-        ownerName: req.user.name
-    })
+router.post('/api/items', async (req, res) => {
+    const item = new Item({ ...req.body })
     try {
         await item.save()
         res.status(201).send(item)
@@ -72,11 +68,11 @@ router.get('/api/items',auth, async (req, res) => {
     }
 })
 
-
-router.get('/items/:id',auth, async (req, res) => {
+//get item by it's id
+router.get('/api/items/:id', async (req, res) => {
     const _id = req.params.id
     try {
-        const item = await Item.findOne({ _id, ownerID: req.user._id })
+        const item = await Item.findOne({ _id })
         if(!item) return res.status(404).send()
         res.send(item)
     }catch(e){

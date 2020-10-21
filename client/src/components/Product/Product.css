@@ -17,12 +17,6 @@
     font-weight: bold;
 }
 
-.single-product select {
-    display: block;
-    padding: 10px;
-    margin-top: 20px;
-}
-
 .single-product input {
     width: 50px;
     height: 40px;
@@ -30,6 +24,90 @@
     font-size: 20px;
     margin-right: 10px;
     border: 1px solid #ff523b;
+}
+
+.single-product .rating a {
+    color: black;
+    margin-left: 10px;
+    text-decoration: underline;
+}
+
+.price-wrapper {
+    display: flex;
+}
+
+.price-before {
+    color: rgb(131, 131, 131);
+    text-decoration: line-through;
+    margin-top: 13px;
+}
+
+.price-after {
+    color: rgb(207, 7, 7);
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.colors-title {
+    font-size: 0.9rem;
+    margin-top: 15px;
+}
+
+.item-colors {
+    display: flex;
+}
+
+.item-color {
+    width: 40px;
+    height: 40px;
+    border-radius: 25px;
+    background-color: white;
+    border: 1px solid grey;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.item-color:nth-child(2){
+    background-color: red;
+}
+.item-color:nth-child(3){
+    background-color: black;
+}
+.item-color:nth-child(4){
+    background-color: blue;
+}
+
+.sizes-title {
+    font-size: 0.9rem;
+    margin-top: 15px;
+}
+
+.item-sizes {
+    display: flex;
+}
+
+.item-size {
+    width: 60px;
+    height: 40px;
+    border: 1px solid black;
+    margin: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.item-size:hover {
+    background-color: black;
+}
+
+.item-size:hover p {
+    color: white;
+}
+
+.item-size p {
+    margin-top: 5px;
+    color: black;
 }
 
 input:focus {

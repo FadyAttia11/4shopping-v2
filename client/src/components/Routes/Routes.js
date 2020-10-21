@@ -21,7 +21,7 @@ const Routes = () => {
             <Route exact path="/4shopping/" component={Home} />
             <Route path="/4shopping/products" component={Products} />
             <Route path="/4shopping/product" component={Product} />
-            <ProtectedLogin path="/4shopping/account" auth={Auth.auth} component={Account} />
+            <ProtectedLogin path="/4shopping/account/:id" auth={Auth.auth} component={Account} />
             <ProtectedRoute path="/4shopping/cart" auth={Auth.auth} component={Cart} />
             <ProtectedRoute path="/4shopping/profile" auth={Auth.auth} component={Profile} />
         </Switch>

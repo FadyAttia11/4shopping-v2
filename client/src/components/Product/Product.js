@@ -1,10 +1,61 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './Product.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faIndent } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
-const Product = () => {
+const Product = (props) => {
+
+    const [productId, setProductId] = useState('')
+    const [product, setProduct] = useState({})
+    const [productReviews, setProductReviews] = useState([])
+    const [productColors, setProductColors] = useState([])
+    const [productSizes, setProductSizes] = useState([])
+    const [productKeywords, setProductKeywords] = useState([])
+
+    useEffect(() => {
+        setProductId(props.location.pathname.slice(19)) //slice /4shopping/product from the path & just keep the id
+    }, [])
+
+    useEffect(() => {
+        if(productId !== '') {
+            async function getProductInfo() {
+                const product = await getProductFromDB() 
+                // console.log(items)
+                setProduct(product)
+            }
+            getProductInfo()
+        }
+    }, [productId])
+
+    useEffect(() => {
+        if(Object.keys(product).length !== 0) {
+            console.log(product)
+            setProductReviews(product.reviews)
+            setProductColors(product.colors)
+            setProductSizes(product.sizes)
+            setProductKeywords(product.keywords)
+        }
+    }, [product])
+
+    const getProductFromDB = () => {
+        const request = axios.get(`/api/items/${productId}`)
+                            .then(response => response.data)
+            return request
+    }
+
+    const displaySizes = () => {
+        if(productSizes.length !== 0) {
+            console.log(productSizes[0])
+            productSizes.map((size, i) => (
+                <div key={i}>
+                    <a href="#" className="item-size"><p>{size}</p></a>
+                </div>
+            ))
+        }
+    }
+
     return (
         <div className="small-container single-product">
             <div className="row">
@@ -50,17 +101,41 @@ const Product = () => {
                 </div>
 
                 <div className="col-2">
-                    <p>Home / T-Shirt</p>
-                    <h1>Red Printed T-Shirt by HRX</h1>
-                    <h4>$50.00</h4>
-                    <select>
-                        <option>Select Size</option>
-                        <option>XXL</option>
-                        <option>XL</option>
-                        <option>Large</option>
-                        <option>Medium</option>
-                        <option>Small</option>
-                    </select>
+                    <p>Home / {product.category}</p>
+                    <h1>{product.name}</h1>
+                    <div className="rating">
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                        <a href="#reviews" data-after="Reviews">{productReviews.length} reviews</a>
+                    </div>
+                    <div className="price-wrapper">
+                        <p className="price-before">${product.price} USD</p>
+                        <p className="price-after">${product.salePrice} USD</p>
+                    </div>
+                    <p className="colors-title">Available Colors: </p>
+                    <div className="item-colors">
+                        <div className="item-color"></div>
+                        <div className="item-color"></div>
+                        <div className="item-color"></div>
+                        <div className="item-color"></div>
+                    </div>
+                    <p className="sizes-title">Available Sizes: </p>
+                    
+                    <div className="item-sizes">
+                    {
+                        <div>{displaySizes()}</div>
+                    }
+
+                        {/* <a href="#" className="item-size"><p>S</p></a>
+                        <a href="#" className="item-size"><p>M</p></a>
+                        <a href="#" className="item-size"><p>L</p></a>
+                        <a href="#" className="item-size"><p>XL</p></a>
+                        <a href="#" className="item-size"><p>XXL</p></a>
+                        <a href="#" className="item-size"><p>XXXL</p></a> */}
+                    </div>
                     <input type="number" value="1" />
                     <Link to="cart" className="btn">Add To Cart</Link>
 
@@ -82,7 +157,7 @@ const Product = () => {
                 </div>
             </div>
 
-            <div className="small-container">
+            <section className="small-container" id="reviews">
                 <div className="row">
                     <div className="col-4">
                         <img src={require('../../img/product-1.jpg')} />
@@ -136,7 +211,7 @@ const Product = () => {
                         <p>$50.00</p>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     )
 }
