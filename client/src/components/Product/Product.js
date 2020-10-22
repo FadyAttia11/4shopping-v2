@@ -13,6 +13,7 @@ const Product = (props) => {
     const [productColors, setProductColors] = useState([])
     const [productSizes, setProductSizes] = useState([])
     const [productKeywords, setProductKeywords] = useState([])
+    const [productImages, setProductImages] = useState([])
 
     useEffect(() => {
         setProductId(props.location.pathname.slice(19)) //slice /4shopping/product from the path & just keep the id
@@ -36,6 +37,8 @@ const Product = (props) => {
             setProductColors(product.colors)
             setProductSizes(product.sizes)
             setProductKeywords(product.keywords)
+            setProductKeywords(product.keywords)
+            setProductImages(product.productImages)
         }
     }, [product])
 
@@ -45,26 +48,34 @@ const Product = (props) => {
             return request
     }
 
-    const displaySizes = () => {
-        if(productSizes.length !== 0) {
-            console.log(productSizes[0])
-            productSizes.map((size, i) => (
-                <div key={i}>
-                    <a href="#" className="item-size"><p>{size}</p></a>
-                </div>
+    const displayColors = () => (
+            productColors.map((color, i) => (
+                <div className="item-color" style={{backgroundColor: color}} key={i}></div>
             ))
-        }
-    }
+    )
+
+    const displaySizes = () => (
+            productSizes.map((size, i) => (
+                    <a href="#" className="item-size" key={i}><p>{size}</p></a>
+            ))
+    )
+    
 
     return (
         <div className="small-container single-product">
             <div className="row">
                 <div className="col-2">
-                    <img src={require('../../img/gallery-1.jpg')} style={{width: "100%"}} id="productImg" />
+                    <img 
+                        src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[0]}` : require('../../img/gallery-1.jpg')} 
+                        alt="personal-img" 
+                        style={{width: "100%", height: "429.5px"}} 
+                        id="productImg" 
+                    />
+                    
                     <div className="small-img-row">
                         <div className="small-img-col">
                             <img 
-                                src={require('../../img/gallery-1.jpg')} 
+                                src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[0]}` : require('../../img/gallery-1.jpg')} 
                                 style={{width: "100%"}} 
                                 className="small-img"
                                 onClick={() => document.getElementById("productImg").src = document.getElementsByClassName("small-img")[0].src}
@@ -73,7 +84,7 @@ const Product = (props) => {
 
                         <div className="small-img-col">
                             <img 
-                                src={require('../../img/gallery-2.jpg')} 
+                                src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[1]}` : require('../../img/gallery-2.jpg')} 
                                 style={{width: "100%"}} 
                                 className="small-img" 
                                 onClick={() => document.getElementById("productImg").src = document.getElementsByClassName("small-img")[1].src}
@@ -82,7 +93,7 @@ const Product = (props) => {
 
                         <div className="small-img-col">
                             <img 
-                                src={require('../../img/gallery-3.jpg')} 
+                                src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[2]}` : require('../../img/gallery-3.jpg')} 
                                 style={{width: "100%"}} 
                                 className="small-img"
                                 onClick={() => document.getElementById("productImg").src = document.getElementsByClassName("small-img")[2].src}
@@ -91,7 +102,7 @@ const Product = (props) => {
 
                         <div className="small-img-col">
                             <img 
-                                src={require('../../img/gallery-4.jpg')} 
+                                src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[3]}` : require('../../img/gallery-4.jpg')} 
                                 style={{width: "100%"}} 
                                 className="small-img"
                                 onClick={() => document.getElementById("productImg").src = document.getElementsByClassName("small-img")[3].src}
@@ -101,7 +112,7 @@ const Product = (props) => {
                 </div>
 
                 <div className="col-2">
-                    <p>Home / {product.category}</p>
+                    <p><Link to="/4shopping/products">All Products</Link> / {product.category}</p>
                     <h1>{product.name}</h1>
                     <div className="rating">
                         <FontAwesomeIcon icon={faStar} className="fa-star" />
@@ -115,28 +126,23 @@ const Product = (props) => {
                         <p className="price-before">${product.price} USD</p>
                         <p className="price-after">${product.salePrice} USD</p>
                     </div>
+
+
                     <p className="colors-title">Available Colors: </p>
-                    <div className="item-colors">
-                        <div className="item-color"></div>
-                        <div className="item-color"></div>
-                        <div className="item-color"></div>
-                        <div className="item-color"></div>
-                    </div>
-                    <p className="sizes-title">Available Sizes: </p>
-                    
-                    <div className="item-sizes">
                     {
-                        <div>{displaySizes()}</div>
+                        <div className="item-colors">
+                            {displayColors()}
+                        </div>
                     }
 
-                        {/* <a href="#" className="item-size"><p>S</p></a>
-                        <a href="#" className="item-size"><p>M</p></a>
-                        <a href="#" className="item-size"><p>L</p></a>
-                        <a href="#" className="item-size"><p>XL</p></a>
-                        <a href="#" className="item-size"><p>XXL</p></a>
-                        <a href="#" className="item-size"><p>XXXL</p></a> */}
-                    </div>
-                    <input type="number" value="1" />
+
+                    <p className="sizes-title">Available Sizes: </p>
+                    {
+                        <div className="item-sizes"> {displaySizes()} </div>
+                    }
+
+
+                    <input type="number" defaultValue="1" />
                     <Link to="cart" className="btn">Add To Cart</Link>
 
                     <h3>Product Details <FontAwesomeIcon icon={faIndent} className="fa-indent" /></h3>
@@ -212,6 +218,15 @@ const Product = (props) => {
                     </div>
                 </div>
             </section>
+
+            <div className="small-container">
+                <div className="row row-2">
+                    <h2>Product Reviews</h2>
+                    <p>View More</p>
+                </div>
+            </div>
+
+            {productReviews}
         </div>
     )
 }

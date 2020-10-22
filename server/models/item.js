@@ -11,6 +11,9 @@ const itemSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    productImages: {
+        type: Array
+    },
     price: { // 100
         type: Number,
         required: true

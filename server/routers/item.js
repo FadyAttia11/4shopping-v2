@@ -2,11 +2,41 @@ const express = require('express')
 const Item = require('../models/item')
 const auth = require('../middleware/auth')
 const router = new express.Router()
+const multer = require('multer')
 
+const storage = multer.diskStorage({ //to specify where it will stored and what is it's name (the full path)
+    destination: function(req, file, cb) {
+        cb(null, './uploads/products')
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + file.originalname)
+    }
+})
 
-//create new item
-router.post('/api/items', async (req, res) => {
-    const item = new Item({ ...req.body })
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true) //means accept the file
+    } else {
+        cb(null, false) //means don't accept the file but don't throw an error
+    }
+}
+
+// const upload = multer({ dest: 'uploads/' }) //used to upload files (imgs)
+const upload = multer({ 
+    storage: storage, 
+    limits: {
+        fileSize: 1024 * 1024 //a number in bytes (this is 1mb)
+    },
+    fileFilter: fileFilter
+}) 
+
+router.post('/api/items', upload.array('productImages', 4),async (req, res) => {
+    let numberOfPhotos = req.files.length;
+    console.log(numberOfPhotos)
+    const item = new Item({ 
+        ...req.body,
+        productImages: (req.files.length !== 0) ? ([req.files[0].path, req.files[1].path, req.files[2].path, req.files[3].path]) : ([])
+    })
     try {
         await item.save()
         res.status(201).send(item)

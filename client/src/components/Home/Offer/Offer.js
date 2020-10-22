@@ -12,7 +12,7 @@ const Offer = () => {
                     </div>
 
                     <div className="col-2">
-                        <p>Exclusively Available on RedStore</p>
+                        <p>Exclusively Available on <span>4</span>Shopping Website</p>
                         <h1>Smart Band 4</h1>
                         <small>
                             The Mi Smart Band 4 features a 39.9% larger (than Mi Band 3) AMOLED color full touch 

@@ -9,6 +9,7 @@ const Products = () => {
 
     const [items, setItems] = useState([])
     const[chuncks, setChunks] = useState([])
+    const[productImages, setProductImages] = useState([])
     const n = 4 //tweak this to add more items per line
 
     const history = useHistory()
@@ -18,6 +19,7 @@ const Products = () => {
             const items = await getItemFromDB() 
             // console.log(items)
             setItems(items)
+            setProductImages(items.productImages)
         }
         getAllItems()
     }, [])
@@ -51,7 +53,12 @@ const Products = () => {
         chunk.map((item, i) => (
             <div className="col-4" key={i}>
                 <a onClick={() => {history.push(`/4shopping/product/${item._id}`)}}>
-                    <img src={require('../../img/product-1.jpg')} className="product-img" />
+                    <img 
+                        src={ item.productImages.length !== 0 ? `http://localhost:5000/${item.productImages[0]}` : require('../../img/product-1.jpg')} 
+                        style={{width: "100%"}} 
+                        className="product-img"
+                        alt="product-img" 
+                    />
                 </a>
                 <h4>{item.name}</h4>
                 <div className="rating">

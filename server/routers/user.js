@@ -1,13 +1,44 @@
 const express = require('express')
-const multer = require('multer')
 const sharp = require('sharp')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 // const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const router = new express.Router()
+const multer = require('multer')
 
-router.post('/api/users', async (req, res) => {
-    const user = new User(req.body)
+
+const storage = multer.diskStorage({ //to specify where it will stored and what is it's name (the full path)
+    destination: function(req, file, cb) {
+        cb(null, './uploads/avatars')
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + file.originalname)
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true) //means accept the file
+    } else {
+        cb(null, false) //means don't accept the file but don't throw an error
+    }
+}
+
+// const upload = multer({ dest: 'uploads/' }) //used to upload files (imgs)
+const upload = multer({ 
+    storage: storage, 
+    limits: {
+        fileSize: 1024 * 1024 //a number in bytes (this is 1mb)
+    },
+    fileFilter: fileFilter
+}) 
+
+router.post('/api/users', upload.single('profileImage'),async (req, res) => {
+    console.log(req.file)
+    const user = new User({
+        ...req.body,
+        profileImage: req.file ? (req.file.path) : ("")
+    })
     try {
         await user.save()
         // sendWelcomeEmail(user.email, user.name)
@@ -18,6 +49,16 @@ router.post('/api/users', async (req, res) => {
         res.status(400).send(e)
     }
 })
+
+// router.post('/multiple-upload',auth, upload.array('profileImage', 2),async (req, res) => {
+//     try {
+//         req.user.profileImage = req.file.path
+//         await req.user.save()
+//         res.send(req.user)
+//     } catch (e) {
+//         res.status(400).send(e)
+//     }
+// })
 
 router.post('/api/users/login', async (req, res) => {
     try{
@@ -66,7 +107,7 @@ router.get('/api/users/all', async (req, res) => {
 })
 
 //read my profile
-router.get('/users/me', auth, async (req, res) => {
+router.get('/api/users/me', auth, async (req, res) => {
     res.send(req.user)
 })
 
@@ -102,26 +143,27 @@ router.delete('/users/me', auth, async (req, res) => {
 })
 
 
-const upload = multer({
-    limits: {
-        fileSize: 1000000
-    },
-    fileFilter(req, file, cb){
-        if(!file.originalname.match(/\.(jpg|jpeg|png)/)){
-            cb(new Error('please upload an image!'))
-        }
-        cb(undefined, true)
-    }
-})
+// const upload = multer({
+//     storage,
+//     limits: {
+//         fileSize: 1024 * 1024
+//     },
+//     fileFilter(req, file, cb){
+//         if(!file.originalname.match(/\.(jpg|jpeg|png)/)){
+//             cb(new Error('please upload an image!'))
+//         }
+//         cb(undefined, true)
+//     }
+// })
 
-router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
-    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
-    req.user.avatar = buffer //req.file ==> the image is accessible here
-    await req.user.save()
-    res.send()
-}, (error, req, res, next) => {
-    res.status(400).send({ error: error.message })
-})
+// router.post('/api/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+//     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+//     req.user.avatar = buffer //req.file ==> the image is accessible here
+//     await req.user.save()
+//     res.send()
+// }, (error, req, res, next) => {
+//     res.status(400).send({ error: error.message })
+// })
 
 router.delete('/users/me/avatar', auth, async (req, res) => {
     req.user.avatar = undefined
