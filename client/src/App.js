@@ -7,6 +7,7 @@ import AuthApi from './context/AuthApi'
 import Navbar from './components/Home/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
 import Routes from './components/Routes/Routes'
+import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 
 import './firebase/firebase'
 
@@ -28,6 +29,7 @@ const App = () => {
   return (
     <AuthApi.Provider value={{ auth, setAuth }}>
       <Router>
+        <ScrollToTop />
         <Navbar />
         <Routes />
         <Footer />
