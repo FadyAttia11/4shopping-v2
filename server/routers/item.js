@@ -33,9 +33,13 @@ const upload = multer({
 router.post('/api/items', upload.array('productImages', 4),async (req, res) => {
     let numberOfPhotos = req.files.length;
     console.log(numberOfPhotos)
+    if(!Array.isArray(req.body.colors)) req.body.colors = req.body.colors.split(" ")
+    if(!Array.isArray(req.body.sizes)) req.body.sizes = req.body.sizes.split(" ")
+    if(!Array.isArray(req.body.keywords)) req.body.keywords = req.body.keywords.split(" ")
     const item = new Item({ 
         ...req.body,
-        productImages: (req.files.length !== 0) ? ([req.files[0].path, req.files[1].path, req.files[2].path, req.files[3].path]) : ([])
+        productImages: (req.files.length !== 0) ? (req.files.map((file) => file.path)) : ([])
+        // productImages: (req.files.length !== 0) ? ([req.files[0].path, req.files[1].path, req.files[2].path, req.files[3].path]) : ([])
     })
     try {
         await item.save()

@@ -101,6 +101,20 @@ const Product = (props) => {
         return request
     }
 
+    const renderSmallPics = () => (
+        productImages.map((image, i) => (
+            <div className="small-img-col" key={i}>
+                <img 
+                    src={`http://localhost:5000/${image}`} 
+                    style={{width: "100%"}} 
+                    className="small-img"
+                    id={i}
+                    onClick={() => document.getElementById("productImg").src = document.getElementById(i).src}
+                />
+            </div>
+        ))
+    )
+
     return (
         <div className="small-container single-product">
             <div className="row">
@@ -112,17 +126,11 @@ const Product = (props) => {
                         id="productImg" 
                     />
                     
-                    <div className="small-img-row">
-                        <div className="small-img-col">
-                            <img 
-                                src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[0]}` : require('../../img/gallery-1.jpg')} 
-                                style={{width: "100%"}} 
-                                className="small-img"
-                                onClick={() => document.getElementById("productImg").src = document.getElementsByClassName("small-img")[0].src}
-                            />
-                        </div>
+                    {<div className="small-img-row">
+                        {renderSmallPics()}
+                    </div>}
 
-                        <div className="small-img-col">
+                        {/* <div className="small-img-col">
                             <img 
                                 src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[1]}` : require('../../img/gallery-2.jpg')} 
                                 style={{width: "100%"}} 
@@ -147,8 +155,8 @@ const Product = (props) => {
                                 className="small-img"
                                 onClick={() => document.getElementById("productImg").src = document.getElementsByClassName("small-img")[3].src}
                             />
-                        </div>
-                    </div>
+                        </div> */}
+                    
                 </div>
 
                 <div className="col-2">

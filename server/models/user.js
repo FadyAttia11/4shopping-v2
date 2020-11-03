@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema({
     profileImage: {
         type: String,
     },
+    admin:{
+        type: Boolean,
+        default: false
+    },
     tokens: [{
         token: {
             type: String,

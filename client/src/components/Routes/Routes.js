@@ -10,6 +10,7 @@ import Account from '../Account/Account'
 import Profile from '../Profile/Profile'
 import BestSellers from '../BestSellers/BestSellers'
 import Offers from '../Offers/Offers'
+import AdminPanel from '../AdminPanel/AdminPanel'
 
 import ProtectedLogin from '../ProtectedLogin/ProtectedLogin' //this is only for non-authenticated users
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute' // this is only for authenticated users
@@ -25,6 +26,7 @@ const Routes = () => {
             <Route path="/4shopping/bestsellers" component={BestSellers} />
             <Route path="/4shopping/offers" component={Offers} />
             <Route path="/4shopping/product" component={Product} />
+            <Route path="/4shopping/admin" component={AdminPanel} />
             <ProtectedLogin path="/4shopping/account/" auth={Auth.auth} component={Account} />
             <ProtectedRoute path="/4shopping/cart" auth={Auth.auth} component={Cart} />
             <ProtectedRoute path="/4shopping/profile" auth={Auth.auth} component={Profile} />
