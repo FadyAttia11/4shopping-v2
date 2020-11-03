@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import './Products.css'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
-const Products = () => {
+const BestSellers = () => {
 
     const [items, setItems] = useState([])
     const[chuncks, setChunks] = useState([])
@@ -69,14 +68,9 @@ const Products = () => {
                     <FontAwesomeIcon icon={faStar} className="fa-star" />
                     <a href="#reviews" data-after="Reviews">{item.reviews.length} reviews</a>
                 </div>
-
                 <div className="price-wrapper">
-                    {(item.price == item.salePrice) ? (
-                        <p className="price-after">${item.salePrice} USD</p>
-                    ) : (
-                        <><p className="price-before">${item.price} USD</p>
-                        <p className="price-after">${item.salePrice} USD</p></>
-                    ) }
+                    <p className="price-before">${item.price} USD</p>
+                    <p className="price-after">${item.salePrice} USD</p>
                 </div>
             </div>
         ))
@@ -87,7 +81,7 @@ const Products = () => {
     return (
         <div className="small-container">
             <div className="row row-2">
-                <h2>All Products</h2>
+                <h2>Best Sellers</h2>
                 <select>
                     <option>Default sorting</option>
                     <option>sort by price</option>
@@ -113,4 +107,4 @@ const Products = () => {
     )
 }
 
-export default Products
+export default BestSellers

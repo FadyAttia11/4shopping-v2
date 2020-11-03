@@ -162,9 +162,14 @@ const Product = (props) => {
                         <FontAwesomeIcon icon={faStar} className="fa-star" />
                         <a href="#reviews" data-after="Reviews">{productReviews.length} reviews</a>
                     </div>
+
                     <div className="price-wrapper">
-                        <p className="price-before">${product.price} USD</p>
-                        <p className="price-after">${product.salePrice} USD</p>
+                        {(product.price == product.salePrice) ? (
+                            <p className="price-after">${product.salePrice} USD</p>
+                        ) : (
+                            <><p className="price-before">${product.price} USD</p>
+                            <p className="price-after">${product.salePrice} USD</p></>
+                        ) }
                     </div>
 
 

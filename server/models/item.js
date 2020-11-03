@@ -19,7 +19,8 @@ const itemSchema = new mongoose.Schema({
         required: true
     },
     salePrice: { // 75
-        type: Number
+        type: Number,
+        required: true
     },
     colors: { // ['red', 'black', 'blue']
         type: Array,
