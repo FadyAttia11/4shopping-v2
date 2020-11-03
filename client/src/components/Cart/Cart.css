@@ -13,6 +13,10 @@ table {
     flex-wrap: wrap;
 }
 
+.quantity-input {
+    width: 50px;
+}
+
 th {
     text-align: left;
     padding: 5px;
@@ -34,6 +38,13 @@ td input {
 td .remove-btn {
     color: #ff523b;
     font-size: 12px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+td .remove-btn:focus {
+    outline: none;
 }
 
 td img {
