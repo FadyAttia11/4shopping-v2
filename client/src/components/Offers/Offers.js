@@ -15,9 +15,9 @@ const Offers = () => {
 
     useEffect(() => {
         async function getAllItems() {
-            const items = await getItemFromDB() 
+            const offerItems = await getItemFromDB() 
             // console.log(items)
-            setItems(items)
+            setItems(offerItems)
             setProductImages(items.productImages)
         }
         getAllItems()
@@ -33,7 +33,7 @@ const Offers = () => {
     }, [items])
 
     const getItemFromDB = () => {
-        const request = axios.get('/api/items/all')
+        const request = axios.get('/api/items/offers')
                             .then(response => response.data)
             return request
     }
@@ -47,9 +47,9 @@ const Offers = () => {
         )) 
     )
 
-
     const displayElements = (chunk) => (
         chunk.map((item, i) => (
+
             <div className="col-4" key={i}>
                 <a onClick={() => {history.push(`/4shopping/product/${item._id}`)}}>
                     <img 

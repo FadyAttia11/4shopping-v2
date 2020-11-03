@@ -51,6 +51,15 @@ router.get('/api/items/all', async (req, res) => {
     res.send(items)
 })
 
+
+//get all items that have discount (the offers)
+router.get('/api/items/offers', async (req, res) => {
+    const items = await Item.find({})
+    const offerItems = items.filter((item) => item.price !== item.salePrice)
+    res.send(offerItems)
+})
+
+
 router.post('/api/items/find', async (req, res) => {
     const items = await Item.find({
         keywords: req.body.searchValue
