@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './Cart.css'
+import { useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 
@@ -18,6 +19,8 @@ const Cart = () => {
     const [products, setProducts] = useState([])
 
     const headers = { Authorization: `Bearer ${Cookies.get('x_auth')}`}
+
+    const history = useHistory()
 
     useEffect(() => {
         async function getUser() {
@@ -192,11 +195,15 @@ const Cart = () => {
                 <tr>
                     <td>
                         <div className="cart-info">
+                        <a className="cart-product" onClick={() => {history.push(`/4shopping/product/${product._id}`)}}>
                             <img 
                                 src={ product.productImages.length !== 0 ? `http://localhost:5000/${product.productImages[0]}` : require('../../img/product-1.jpg')}
                             />
+                        </a>
                             <div>
-                                <p>{product.name}</p>
+                                <a className="cart-product" onClick={() => {history.push(`/4shopping/product/${product._id}`)}}>
+                                    <p>{product.name}</p>
+                                </a>
                                 <small>Price: ${product.salePrice.toFixed(2)}</small>
                                 <br />
                                 <button 

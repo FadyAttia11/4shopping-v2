@@ -64,6 +64,14 @@ td img {
     max-width: 400px;
 }
 
+.cart-product img, .cart-product p{
+    cursor: pointer;
+}
+
+.cart-product p:hover {
+    color: black;
+}
+
 /* to align everything on the right-side */
 td:last-child {
     text-align: right;

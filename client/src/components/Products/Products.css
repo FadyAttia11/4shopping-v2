@@ -53,3 +53,16 @@ select:focus {
     cursor: pointer;
     height: 316.66px;
 }
+
+.product-name {
+    cursor: pointer;
+}
+
+.product-img:hover + .product-name {
+    color: black;
+}
+
+.product-name:hover {
+    color: black;
+}
+

@@ -59,8 +59,8 @@ const Products = () => {
                         className="product-img"
                         alt="product-img" 
                     />
+                    <h4 className="product-name">{item.name}</h4>
                 </a>
-                <h4>{item.name}</h4>
                 <div className="rating">
                     <FontAwesomeIcon icon={faStar} className="fa-star" />
                     <FontAwesomeIcon icon={faStar} className="fa-star" />
