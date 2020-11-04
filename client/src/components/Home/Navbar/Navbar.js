@@ -21,6 +21,7 @@ const Navbar = () => {
                 <nav>
                     <ul id="menuItems" style={{maxHeight: "0px"}}>
                         <li><Link to="/4shopping/">Home</Link></li>
+                        <li><Link to="/4shopping/admin">Admin</Link></li>
                         <li><Link to="/4shopping/offers"><span>Offers & Deals</span></Link></li>
                         <li><Link to="/4shopping/products">All Products</Link></li>
                         <li><Link to="/4shopping/about">Visit Us</Link></li>

@@ -44,7 +44,7 @@ const itemSchema = new mongoose.Schema({
         trim:true
     }
 }, {
-    timestamps: true
+    timestamps: true    
 })
 
 const Item = mongoose.model('Item', itemSchema)
