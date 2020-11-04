@@ -42,6 +42,10 @@ const itemSchema = new mongoose.Schema({
     keywords:{ // ['shirt', 'summer', 'sea']
         type: Array,
         trim:true
+    },
+    featured: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true    
