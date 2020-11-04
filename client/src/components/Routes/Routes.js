@@ -8,7 +8,6 @@ import Product from '../Product/Product'
 import Cart from '../Cart/Cart'
 import Account from '../Account/Account'
 import Profile from '../Profile/Profile'
-import BestSellers from '../BestSellers/BestSellers'
 import Offers from '../Offers/Offers'
 import AdminPanel from '../AdminPanel/AdminPanel'
 
@@ -23,7 +22,6 @@ const Routes = () => {
         <Switch>
             <Route exact path="/4shopping/" component={Home} />
             <Route path="/4shopping/products" component={Products} />
-            <Route path="/4shopping/bestsellers" component={BestSellers} />
             <Route path="/4shopping/offers" component={Offers} />
             <Route path="/4shopping/product" component={Product} />
             <Route path="/4shopping/admin" component={AdminPanel} />
