@@ -160,7 +160,7 @@ const Product = (props) => {
                 </div>
 
                 <div className="col-2">
-                    <p><Link to="/4shopping/products">All Products</Link> / {product.category}</p>
+                    <p><Link to="/4shopping/products/all">All Products</Link> / {product.category}</p>
                     <h1>{product.name}</h1>
                     <div className="rating">
                         <FontAwesomeIcon icon={faStar} className="fa-star" />

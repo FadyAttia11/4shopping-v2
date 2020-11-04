@@ -23,7 +23,7 @@ const Navbar = () => {
                         <li><Link to="/4shopping/">Home</Link></li>
                         <li><Link to="/4shopping/admin">Admin</Link></li>
                         <li><Link to="/4shopping/offers"><span>Offers & Deals</span></Link></li>
-                        <li><Link to="/4shopping/products">All Products</Link></li>
+                        <li><Link to="/4shopping/products/all">All Products</Link></li>
                         <li><Link to="/4shopping/about">Visit Us</Link></li>
                         {!Auth.auth && <li><Link to="/4shopping/account"><span>Login</span></Link></li>}
                         {/* {Auth.auth && <button className="cta" onClick={handleSignOut}><span>Sign out</span></button>} */}

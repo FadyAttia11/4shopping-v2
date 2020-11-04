@@ -5,11 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
-const Products = () => {
+const Products = (props) => {
 
     const [items, setItems] = useState([])
+    const [filteredItems, setFilteredItems] = useState([])
     const[chuncks, setChunks] = useState([])
-    const[productImages, setProductImages] = useState([])
+    const[productCategory, setProductsCategory] = useState('') //shirts, pants, or shoes
     const n = 4 //tweak this to add more items per line
 
     const history = useHistory()
@@ -19,19 +20,39 @@ const Products = () => {
             const items = await getItemFromDB() 
             // console.log(items)
             setItems(items)
-            setProductImages(items.productImages)
+            
         }
         getAllItems()
+        setProductsCategory(props.location.pathname.slice(20)) //slice /4shopping/products from the path & just keep the category
     }, [])
 
+    useEffect(() => {
+        
+        if(productCategory && items.length !== 0) {
+            // console.log(productCategory)
+            if(productCategory === 'shirts') {
+                setFilteredItems(items.filter(item => item.category === 't-shirt' || item.category === 'shirt' || item.category === 'sweatshirt'))
+            } else if(productCategory === 'pants') {
+                setFilteredItems(items.filter(item => item.category === 'jeans' || item.category === 'sweatpants'))
+            }else if(productCategory === 'shoes') {
+                setFilteredItems(items.filter(item => item.category === 'shoes' || item.category === 'sneakers'))
+            }else if(productCategory === 'all') {
+                setFilteredItems(items)
+            }
+            
+        }
+    }, [productCategory, items])
+
+
     useEffect(() => { //used to divide the array of products to arrays of 4 products each
-        if(items.length !== 0) {
-            const result = new Array(Math.ceil(items.length / n))
+        if(filteredItems.length !== 0) {
+            // console.log(filteredItems.map(item => item.category))
+            const result = new Array(Math.ceil(filteredItems.length / n))
             .fill()
-            .map(_ => items.splice(0, n))
+            .map(_ => filteredItems.splice(0, n))
             setChunks(result)
         }
-    }, [items])
+    }, [filteredItems])
 
     const getItemFromDB = () => {
         const request = axios.get('/api/items/all')
@@ -82,12 +103,19 @@ const Products = () => {
         ))
     )
 
-
+    const handleClickingAllProducts = () => {
+        history.push("/4shopping/products/all")
+        setProductsCategory('all')
+    }
 
     return (
         <div className="small-container">
             <div className="row row-2">
-                <h2>All Products</h2>
+            <h2>
+                <a onClick={handleClickingAllProducts} className="all-product-headline">
+                    All Products 
+                </a>
+                {(productCategory === 'shirts' || productCategory === 'pants' || productCategory === 'shoes') ? ` / ${productCategory}` : null}</h2>
                 <select>
                     <option>Default sorting</option>
                     <option>sort by price</option>

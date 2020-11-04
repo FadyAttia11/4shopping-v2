@@ -66,4 +66,8 @@ select:focus {
     color: black;
 }
 
+.all-product-headline {
+    cursor: pointer;
+}  
+
 
