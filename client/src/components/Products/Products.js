@@ -8,9 +8,9 @@ import axios from 'axios'
 const Products = (props) => {
 
     const [items, setItems] = useState([])
-    const [filteredItems, setFilteredItems] = useState([])
-    const[chuncks, setChunks] = useState([])
-    const[productCategory, setProductsCategory] = useState('') //shirts, pants, or shoes
+    const [numOfPages, setNumOfPages] = useState(0)
+    const [params, setParams] = useState('')
+    const [chuncks, setChunks] = useState([])
     const n = 4 //tweak this to add more items per line
 
     const history = useHistory()
@@ -18,46 +18,59 @@ const Products = (props) => {
     useEffect(() => {
         async function getAllItems() {
             const items = await getItemFromDB() 
+            const count = await getCountFromDB() //returns as string (need to be parseInt())
             // console.log(items)
             setItems(items)
-            
+            const numOfPages = Math.ceil(parseInt(count) / 20)
+            setNumOfPages(numOfPages)  
         }
         getAllItems()
-        setProductsCategory(props.location.pathname.slice(20)) //slice /4shopping/products from the path & just keep the category
     }, [])
 
-    useEffect(() => {
-        
-        if(productCategory && items.length !== 0) {
-            // console.log(productCategory)
-            if(productCategory === 'shirts') {
-                setFilteredItems(items.filter(item => item.category === 't-shirt' || item.category === 'shirt' || item.category === 'sweatshirt'))
-            } else if(productCategory === 'pants') {
-                setFilteredItems(items.filter(item => item.category === 'jeans' || item.category === 'sweatpants'))
-            }else if(productCategory === 'shoes') {
-                setFilteredItems(items.filter(item => item.category === 'shoes' || item.category === 'sneakers'))
-            }else if(productCategory === 'all') {
-                setFilteredItems(items)
-            }
-            
-        }
-    }, [productCategory, items])
 
 
     useEffect(() => { //used to divide the array of products to arrays of 4 products each
-        if(filteredItems.length !== 0) {
-            // console.log(filteredItems.map(item => item.category))
-            const result = new Array(Math.ceil(filteredItems.length / n))
+        if(items.length !== 0) {
+            // console.log(items.map(item => item.category))
+            const result = new Array(Math.ceil(items.length / n))
             .fill()
-            .map(_ => filteredItems.splice(0, n))
+            .map(_ => items.splice(0, n))
             setChunks(result)
         }
-    }, [filteredItems])
+    }, [items])
+
+
+    useEffect(() => {
+        if(params !== ''){
+            async function getItems() {
+                const items = await getItemFromDB()
+                setItems(items)
+            }
+            getItems()
+        }
+    }, [params])
+
+    // useEffect(() => {
+    //     if(numOfPages !== 0) {
+    //         console.log(numOfPages)
+    //     }
+    // }, [numOfPages])
 
     const getItemFromDB = () => {
-        const request = axios.get('/api/items/all')
+
+        //params has all query params ==> ?key=value (IMPORTANT)
+        //you can access any value with:  params.get('key') ==> this will give you the value (IMPORTANT) 
+        const search = props.location.search
+        const params = (new URLSearchParams(search))
+        const request = axios.get(`/api/items/all?page=${params.get('page')}&category=${params.get('category')}`)
                             .then(response => response.data)
-            return request
+        return request
+    }
+
+    const getCountFromDB = () => {
+        const request = axios.get("/api/items/all/count")
+                            .then(response => response.data)
+        return request
     }
 
 
@@ -105,8 +118,52 @@ const Products = (props) => {
 
     const handleClickingAllProducts = () => {
         history.push("/4shopping/products/all")
-        setProductsCategory('all')
     }
+
+    const handleClickingNumber = async (e, i) => {
+        e.preventDefault()
+        // console.log(i)
+
+        const search = props.location.search
+        const params = (new URLSearchParams(search))
+
+        params.set('page', i)
+        props.history.push(`?${params.toString()}`) //to set the query params when clicking page num
+        setParams(params.toString())  
+    }
+
+    
+    //to display the number of pages
+    const fields = []
+    for (let i = 1; i <= numOfPages; i++) {
+        fields.push(<a onClick={(e) => handleClickingNumber(e, i)} key={i} className="page-num"><span>{i}</span></a>)
+    }
+
+
+
+    const changeActivePageColor = () => {
+        const search = props.location.search
+        const params = (new URLSearchParams(search))
+        const pageParam = params.get('page')
+        console.log(pageParam)
+
+        //to change to color of the current active page (in pagination)
+        const links = document.querySelectorAll(".page-num")
+        links.forEach(function (item) {
+            item.addEventListener('click', function () {
+            //reset the color of other links
+            links.forEach(function (item) {
+                item.style.backgroundColor = '#fff'
+                item.style.color = '#555'
+            })
+            // apply the style to the link
+            this.style.backgroundColor = '#ff523b'
+            this.style.color = '#fff'
+            });
+        }) 
+    }
+    changeActivePageColor()
+    
 
     return (
         <div className="small-container">
@@ -115,7 +172,7 @@ const Products = (props) => {
                 <a onClick={handleClickingAllProducts} className="all-product-headline">
                     All Products 
                 </a>
-                {(productCategory === 'shirts' || productCategory === 'pants' || productCategory === 'shoes') ? ` / ${productCategory}` : null}</h2>
+                </h2>
                 <select>
                     <option>Default sorting</option>
                     <option>sort by price</option>
@@ -125,17 +182,18 @@ const Products = (props) => {
                 </select>
             </div>
 
+            <div className="page-btn">
+                {fields}
+            </div>
+
             {
                 <div>{displayChuncks()}</div>
             }
         
 
             <div className="page-btn">
-                <span>1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>4</span>
-                <span>&#8594;</span>
+                {fields}
+                {/* <a><span>&#8594;</span></a> */}
             </div>
         </div>
     )

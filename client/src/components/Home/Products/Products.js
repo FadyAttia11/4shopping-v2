@@ -8,6 +8,7 @@ import axios from 'axios'
 const Products = () => {
 
     const [items, setItems] = useState([]) //reversed (new is first)
+    const [allItems, setAllItems] = useState([])
     const [latestItems, setLatestItems] = useState([])
     const [featuredItems, setFeaturedItems] = useState([]) //array of the last 4 featured
     const [chunks, setChunks] = useState([]) //2 arrays of 4 products each
@@ -20,10 +21,18 @@ const Products = () => {
     useEffect(() => {
         async function getAllItems() {
             const items = await getAllFromDB()
+            const allItems = await getAllItemsFromDB()
+            setAllItems(allItems.reverse())
             setItems(items.reverse()) //to get the latest createdAt first
         }
         getAllItems()
     }, [])
+
+    const getAllItemsFromDB = () => {
+        const request = axios.get('/api/items')
+                            .then(response => response.data)
+            return request
+    }
 
     const getAllFromDB = () => {
         const request = axios.get('/api/items/all')
@@ -32,10 +41,11 @@ const Products = () => {
     }
 
     useEffect(() => {
-        setLatestItems(items.slice(0, m)) //get the first 8 elements of the array
-        const featuredItems = items.filter(item => item.featured === true)
+        console.log(allItems)
+        setLatestItems(allItems.slice(0, m)) //get the first 8 elements of the array
+        const featuredItems = allItems.filter(item => item.featured === true)
         setFeaturedItems(featuredItems.slice(0, 4)) //set the featured to be the latest 4
-    }, [items])
+    }, [allItems])
 
     useEffect(() => { //used to divide the array of products to arrays of 4 products each
         if(latestItems.length !== 0) {
@@ -47,8 +57,8 @@ const Products = () => {
     }, [latestItems])
 
     // useEffect(() => {
-    //     console.log(featuredItems)
-    // }, [featuredItems])
+    //     console.log(items)
+    // }, [items])
 
     const displayLatestChunk = () => (
         chunks.map((chunk, i) => (

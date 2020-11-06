@@ -49,10 +49,78 @@ router.post('/api/items', upload.array('productImages', 4),async (req, res) => {
     }
 })
 
-//get all items (NEW)
+//get the number of all items 
+router.get('/api/items/all/count', async (req, res) => {
+    try {
+        //count all items (to know how many pages in front for arrow rendering)
+        let count = await Item.countDocuments({})
+        const stringCount = count.toString() //res.send() doesn't allow integer to be send back !
+        res.send(stringCount)
+    } catch (e) {
+        return res.status(500).json(e)
+    }
+})
+
+
+//get all items without pagination
+router.get('/api/items', async (req, res) => {
+    try {
+        const items = await Item.find({})
+        res.send(items)
+    } catch (e) {
+        return res.status(500).json(e)
+    }
+})
+
+
+//get all items (NEW) (pagination ==> 20 per page)
 router.get('/api/items/all', async (req, res) => {
-    const items = await Item.find({})
-    res.send(items)
+    try {
+        const page = (req.query.page)
+        const category = req.query.category
+        console.log(page)
+        console.log(category)
+        const items = await Item.getItemsPerPage(page, category) //go to method to get 20 per page
+        res.send(items)
+    } catch (e) {
+        return res.status(500).json(e)
+    }
+})
+
+
+//GET /items?completed=true
+//GET /items?limit=10&skip=20
+//GET /items?sortBy=createdAt:desc
+router.get('/api/items', async (req, res) => {
+    const match = {}
+    const sort = {}
+    const page = (req.query.page)
+    const PAGE_SIZE = 20
+    const skip = (page - 1) * PAGE_SIZE
+    // //make the query boolean instead of string then make the match completed like it
+    // if(req.query.completed) match.completed = req.query.completed === 'true'
+
+    // if(req.query.sortBy) {
+    //     const parts = req.query.sortBy.split(':')
+    //     sort[parts[0]] = parts[1] === 'desc' ? -1 : 1
+    // }
+
+    try {
+        // const items = await Item.find({ ownerID: req.user._id }) //first approach
+        await req.user.populate({
+            path: 'items',
+            match, //used for filtering (like showing only the false or true items)
+            options: { //used for paginating (limiting data for single page)
+                limit: PAGE_SIZE, //for limit the data for single page
+                skip, //for showing the 2nd or 3rd pages
+                sort
+            }
+        }).execPopulate() //second approach
+        res.send(req.user.items)
+        // res.send(items)
+    }catch(e){
+        res.status(500).send()
+    }
 })
 
 
@@ -78,38 +146,7 @@ router.get('/api/items/all/:id', async (req, res) => {
     res.send(items)
 })
 
-//GET /items?completed=true
-//GET /items?limit=10&skip=20
-//GET /items?sortBy=createdAt:desc
-router.get('/api/items',auth, async (req, res) => {
-    const match = {}
-    const sort = {}
 
-    //make the query boolean instead of string then make the match completed like it
-    if(req.query.completed) match.completed = req.query.completed === 'true'
-
-    if(req.query.sortBy) {
-        const parts = req.query.sortBy.split(':')
-        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1
-    }
-
-    try {
-        const items = await Item.find({ ownerID: req.user._id }) //first approach
-        // await req.user.populate({
-        //     path: 'items',
-        //     match, //used for filtering (like showing only the false or true items)
-        //     options: { //used for paginating (limiting data for single page)
-        //         limit: parseInt(req.query.limit), //for limit the data for single page
-        //         skip: parseInt(req.query.skip), //for showing the 2nd or 3rd pages
-        //         sort
-        //     }
-        // }).execPopulate() //second approach
-        // res.send(req.user.items)
-        res.send(items)
-    }catch(e){
-        res.status(500).send()
-    }
-})
 
 //get item by it's id
 router.get('/api/items/:id', async (req, res) => {

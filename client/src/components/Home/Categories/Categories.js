@@ -11,19 +11,19 @@ const Home = () => {
             <div className="small-container">
                 <div className="row">
                     <div className="col-3">
-                        <a onClick={() => {history.push("/4shopping/products/shirts")}}>
+                        <a onClick={() => {history.push("/4shopping/products?category=shirts")}}>
                             <img className="category-img" src={require('../../../img/category-1.jpeg')} />
                         </a>
                         <h2>Shirts</h2>
                     </div>
                     <div className="col-3">
-                        <a onClick={() => {history.push("/4shopping/products/pants")}}>
+                        <a onClick={() => {history.push("/4shopping/products?category=pants")}}>
                             <img className="category-img" src={require('../../../img/category-2.jpeg')} />
                         </a>
                         <h2>Pants</h2>
                     </div>
                     <div className="col-3">
-                        <a onClick={() => {history.push("/4shopping/products/shoes")}}>
+                        <a onClick={() => {history.push("/4shopping/products?category=shoes")}}>
                             <img className="category-img" src={require('../../../img/category-3.jpeg')} />
                         </a>
                         <h2>Shoes</h2>
