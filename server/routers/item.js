@@ -30,6 +30,7 @@ const upload = multer({
     fileFilter: fileFilter
 }) 
 
+
 router.post('/api/items', upload.array('productImages', 4),async (req, res) => {
     let numberOfPhotos = req.files.length;
     console.log(numberOfPhotos)
@@ -44,6 +45,35 @@ router.post('/api/items', upload.array('productImages', 4),async (req, res) => {
     try {
         await item.save()
         res.status(201).send(item)
+    }catch(e){
+        res.status(400).send(e)
+    }
+})
+
+//Update Existing Product
+router.patch('/api/items/edit/:name', async (req, res) => {
+    if(req.body.colors) if(!Array.isArray(req.body.colors)) req.body.colors = req.body.colors.split(" ")
+    if(req.body.sizes) if(!Array.isArray(req.body.sizes)) req.body.sizes = req.body.sizes.split(" ")
+    if(req.body.keywords) if(!Array.isArray(req.body.keywords)) req.body.keywords = req.body.keywords.split(" ")
+
+    console.log(req.body)
+
+    const updates = Object.keys(req.body) //take all keys and put them into an array
+    const allowedUpdates = ['productImages', 'category', 'price', 'salePrice', 'colors', 'sizes', 'keywords']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if(!isValidOperation) return res.status(400).send({ error: 'invalid updates!' })
+
+    const name = req.params.name
+    
+    try {
+        const item = await Item.findOne({ name })
+        if(!item) return res.status(404).send()
+
+        updates.forEach((update) => item[update] = req.body[update])
+        await item.save() 
+
+        res.send(item)
     }catch(e){
         res.status(400).send(e)
     }
@@ -160,28 +190,8 @@ router.get('/api/items/:id', async (req, res) => {
     }
 })
 
-router.patch('/items/:id', auth, async (req, res) => {
-    const updates = Object.keys(req.body) //take all keys and put them into an array
-    const allowedUpdates = ['description', 'completed']
-    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
-    if(!isValidOperation) return res.status(400).send({ error: 'invalid updates!' })
 
-    const _id = req.params.id
-
-    try {
-        const item = await Item.findOne({ _id, ownerID: req.user._id })
-        if(!item) return res.status(404).send()
-
-        updates.forEach((update) => item[update] = req.body[update])
-        await item.save() //use these 3 lines not the commented one for using middleware for pre-save command
-        // const item = await Item.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true })
-        
-        res.send(item)
-    }catch(e){
-        res.status(400).send(e)
-    }
-})
 
 router.delete('/items/:id', auth, async (req, res) => {
     const _id = req.params.id

@@ -148,7 +148,7 @@ const Products = (props) => {
         console.log(pageParam)
 
         //to change to color of the current active page (in pagination)
-        const links = document.querySelectorAll(".page-num")
+        const links = document.querySelectorAll(`.page-num`)    
         links.forEach(function (item) {
             item.addEventListener('click', function () {
             //reset the color of other links

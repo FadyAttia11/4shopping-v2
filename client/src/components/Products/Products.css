@@ -49,10 +49,10 @@ select:focus {
     color: white;
 }
 
-/* .page-num:nth-child(1){
-    background: #ff523b;
-    color: white;
-} */
+.current-page {
+    color: #fff;
+    background-color: #ff523b;
+ }
 
 
 .product-img {

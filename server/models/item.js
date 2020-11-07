@@ -4,6 +4,7 @@ const itemSchema = new mongoose.Schema({
     name: { //Red Printed T-Shirt by HRX
         type: String,
         required: true,
+        unique: true,
         trim: true
     },
     category: { // Shirt, Jeans, or Sneakers
