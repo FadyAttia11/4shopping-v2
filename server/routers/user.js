@@ -33,6 +33,7 @@ const upload = multer({
     fileFilter: fileFilter
 }) 
 
+
 router.post('/api/users', upload.single('profileImage'),async (req, res) => {
     console.log(req.file)
     const user = new User({
@@ -40,7 +41,7 @@ router.post('/api/users', upload.single('profileImage'),async (req, res) => {
         profileImage: req.file ? (req.file.path) : ("")
     })
     try {
-        await user.save()
+        // await user.save()
         // sendWelcomeEmail(user.email, user.name)
         const token = await user.createAuthToken()
         await user.save()
@@ -49,6 +50,19 @@ router.post('/api/users', upload.single('profileImage'),async (req, res) => {
         res.status(400).send(e)
     }
 })
+
+
+router.post('/api/users/me/avatar', auth, upload.single('profileImage'), async (req, res) => {
+    console.log(req.file)
+    // const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+    req.user.profileImage = req.file.path //req.file ==> the image is accessible here
+    await req.user.save()
+    res.send()
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
+})
+
+
 
 // router.post('/multiple-upload',auth, upload.array('profileImage', 2),async (req, res) => {
 //     try {
@@ -142,7 +156,6 @@ router.delete('/users/me', auth, async (req, res) => {
     }
 })
 
-
 // const upload = multer({
 //     storage,
 //     limits: {
@@ -156,14 +169,6 @@ router.delete('/users/me', auth, async (req, res) => {
 //     }
 // })
 
-// router.post('/api/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
-//     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
-//     req.user.avatar = buffer //req.file ==> the image is accessible here
-//     await req.user.save()
-//     res.send()
-// }, (error, req, res, next) => {
-//     res.status(400).send({ error: error.message })
-// })
 
 router.delete('/users/me/avatar', auth, async (req, res) => {
     req.user.avatar = undefined

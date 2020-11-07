@@ -6,7 +6,11 @@ import './Profile.css'
 
 import AuthApi from '../../context/AuthApi'
 
+var FormData = require('form-data');
+
 const Profile = () => {
+
+    var bodyFormData = new FormData();
 
     const [user, setUser] = useState({}) //contains 4 important strings: _id, name, email, imgurl
 
@@ -14,6 +18,12 @@ const Profile = () => {
     let history = useHistory()
 
     const headers = { Authorization: `Bearer ${Cookies.get('x_auth')}`}
+
+    //we use the useRef hook to refer to the hidden input 
+    const hiddenFileInput = React.useRef(null)
+
+    //used to store the files uploaded to the input file
+    const fileInput = React.createRef()
 
     useEffect(() => {
         async function getUserData() {
@@ -23,6 +33,7 @@ const Profile = () => {
         }
         getUserData()
     }, []) 
+
 
     const getUserFromDB = () => {
         const request = axios.get('/api/users/me', { headers })
@@ -46,22 +57,81 @@ const Profile = () => {
         return request
     }
 
-    const handleAddImg = () => {
+    
 
+    const handleClick = (e) => {
+        e.preventDefault()
+        hiddenFileInput.current.click();
     }
 
+    // const handleChange = (e) => {
+    //     const fileUploaded = e.target.files[0];
+    //     console.log(fileUploaded)
+    // }
+
+
+
+    const handleChange = async (e) => {
+        e.preventDefault()        
+
+        const image = e.target.files[0]
+        // console.log(fileUploaded)
+        bodyFormData.append('profileImage', image, 'profile-pic.jpg')
+        // let imagesArray = Array.from(fileInput.current.files)
+        // console.log(imagesArray)
+
+        // imagesArray.map((image) => bodyFormData.append('profileImage', image, 'profile-pic.jpg'))
+        await sendFormToDB()
+    }
+
+    const sendFormToDB = async () => {
+        await axios({
+            method: 'post',
+            url: '/api/users/me/avatar',
+            data: bodyFormData,
+            headers: {
+                'Content-Type': 'multipart/form-data' ,
+                Authorization: `Bearer ${Cookies.get('x_auth')}`
+            }})
+            .then(function (response) {
+                //handle success
+                console.log(response);
+            })
+            .catch(function (response) {
+                //handle error
+                console.log(response);
+            });
+    }
 
     return (
-        <div>
-            <h1>Profile page</h1>
+        <div className="small-container profile-page"> 
+            {/* <img src={`http://localhost:5000/${user.profileImage}`} alt="personal-img" className="personal-img"></img> */}
+            <div className="profile-top">
+                <div className="main-info">
+                    <img 
+                        src={(user.profileImage !== "") ? (`http://localhost:5000/${user.profileImage}`) : require('../../img/no-photo.jpg')} 
+                        alt="personal-img" 
+                        className="personal-img"
+                    />
+                    <h2>{user.name}</h2>
+                    <form action="/multiple-upload" method="POST" encType="multipart/form-data">
+                        <button onClick={handleClick} className="changepic-btn">Change Profile Picture</button>
+                        <input 
+                            type="file" 
+                            style={{display:'none'}} 
+                            ref={hiddenFileInput} 
+                            onChange={handleChange}
+                            multiple
+                        />
+                    </form>
+                </div>
 
-            <h2>Hello {user.name}</h2>
-            <img src={`http://localhost:5000/${user.profileImage}`} alt="personal-img" className="personal-img"></img>
-            <button className="cta" onClick={handleSignOut}><span>Sign out</span></button>
+                <div className="spacer"></div>
 
-            <form action="/multiple-upload" method="POST" enctype="multipart/form-data">
-                <input type="file" multiple />
-            </form>
+                <button className="signout-btn" onClick={handleSignOut}><span>Sign out</span></button>
+            </div>
+
+            
 
         </div>
     )
