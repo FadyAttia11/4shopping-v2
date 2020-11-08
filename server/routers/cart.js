@@ -59,10 +59,11 @@ router.patch('/api/cart/:id', auth, async (req, res) => {
 router.delete('/api/cart/:id', auth, async (req, res) => { //the id of the cart (_id)
     const _id = req.params.id
     try {
-        const cart = await Cart.findByIdAndDelete(_id)
+        const cart = await Cart.findById(_id)
         if(!cart) return res.status(404).send()
-        // const cart = await Cart.deleteOne({_id})
-        res.send(cart)
+
+        const deletedCart = await Cart.deleteOne({ _id: cart._id, color: cart.color, size: cart.size })
+        res.send(deletedCart)
     }catch(e){
         res.status(500).send(e)
     }

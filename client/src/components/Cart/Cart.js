@@ -186,19 +186,23 @@ const Cart = () => {
     const fetchRemovingProduct = (currentCartElement) => {
         const request = axios.delete(`/api/cart/${currentCartElement[0]._id}`, { headers })
                             .then(response => response.data)
-                            .catch(() => console.log('error for no reason'))
+                            .catch(() => console.log('error'))
         return request
     }
 
     const currentProductColor = (product) => {
-        const currentCartElement = cart.filter((cartElement) => cartElement.productId == product._id)
+        const currentCartElement = cart.filter((cartElement) => 
+            cartElement.productId == product._id 
+        )
         // console.log(currentCartElement[0].quantity)
         return currentCartElement[0].color
         //value is writting wrong
     }
 
     const currentProductSize = (product) => {
-        const currentCartElement = cart.filter((cartElement) => cartElement.productId == product._id)
+        const currentCartElement = cart.filter((cartElement) => 
+            cartElement.productId == product._id 
+        )
         // console.log(currentCartElement[0].quantity)
         return currentCartElement[0].size
         //value is writting wrong

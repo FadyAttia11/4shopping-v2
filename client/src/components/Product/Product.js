@@ -30,6 +30,7 @@ const Product = (props) => {
         setProductId(props.location.pathname.slice(19)) //slice /4shopping/product from the path & just keep the id
     }, [])
 
+
     useEffect(() => {
         if(productId !== '') {
             async function getProductInfo() {
@@ -73,6 +74,19 @@ const Product = (props) => {
             return request
     }
 
+
+    const colorsLinks = document.querySelectorAll(`.item-color`)
+    colorsLinks.forEach(function (item) {
+        item.addEventListener('click', function () {
+        //reset the color of other links
+        colorsLinks.forEach(function (item) {
+            item.style.border = '1px solid grey'
+        })
+        // apply the style to the link
+        this.style.border = '5px solid grey'
+        });
+    }) 
+
     const displayColors = () => (
             productColors.map((color, i) => (
                 <a 
@@ -84,13 +98,28 @@ const Product = (props) => {
             ))
     )
 
+  
+    const sizesLinks = document.querySelectorAll(`.item-size`)
+    sizesLinks.forEach(function (item) {
+        item.addEventListener('click', function () {
+        //reset the color of other links
+        sizesLinks.forEach(function (item) {
+            item.style.backgroundColor = 'white'
+            item.style.color = 'black'
+        })
+        // apply the style to the link
+        this.style.backgroundColor = 'black'
+        this.style.color = 'white'
+        });
+    }) 
+
     const displaySizes = () => (
             productSizes.map((size, i) => (
                     <a 
                         onClick={(e) => setCartSize(size)} 
                         className="item-size" 
                         key={i}
-                    ><p>{size}</p></a>
+                    >{size}</a>
             ))
     )
 
@@ -142,35 +171,7 @@ const Product = (props) => {
                     
                     {<div className="small-img-row">
                         {renderSmallPics()}
-                    </div>}
-
-                        {/* <div className="small-img-col">
-                            <img 
-                                src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[1]}` : require('../../img/gallery-2.jpg')} 
-                                style={{width: "100%"}} 
-                                className="small-img" 
-                                onClick={() => document.getElementById("productImg").src = document.getElementsByClassName("small-img")[1].src}
-                            />
-                        </div>
-
-                        <div className="small-img-col">
-                            <img 
-                                src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[2]}` : require('../../img/gallery-3.jpg')} 
-                                style={{width: "100%"}} 
-                                className="small-img"
-                                onClick={() => document.getElementById("productImg").src = document.getElementsByClassName("small-img")[2].src}
-                            />
-                        </div>
-
-                        <div className="small-img-col">
-                            <img 
-                                src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[3]}` : require('../../img/gallery-4.jpg')} 
-                                style={{width: "100%"}} 
-                                className="small-img"
-                                onClick={() => document.getElementById("productImg").src = document.getElementsByClassName("small-img")[3].src}
-                            />
-                        </div> */}
-                    
+                    </div>}  
                 </div>
 
                 <div className="col-2">
