@@ -149,7 +149,7 @@ const EditExistingProduct = () => {
                         onChange={(e) => setKeywords(e.target.value)}  
                     />
 
-                    <input className="submit" type="submit" name="Add New Product"/>
+                    <input className="btn" type="submit" name="Add New Product"/>
                 </form>
             </div>
         </div>

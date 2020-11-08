@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="container">
             <div className="navbar">
                 <div className="logo">
-                    <Link to="/4shopping/"><img src={require('../../../img/logo.png')} style={{width: "125px"}} /></Link>
+                    <Link to="/4shopping/"><img src={require('../../../img/4shopping-light.png')} style={{width: "150px"}} /></Link>
                 </div>
 
                 <nav>
@@ -24,7 +24,7 @@ const Navbar = () => {
                         <li><Link to="/4shopping/admin">Admin</Link></li>
                         <li><Link to="/4shopping/offers"><span>Offers & Deals</span></Link></li>
                         <li><Link to="/4shopping/products/all">All Products</Link></li>
-                        <li><Link to="/4shopping/about">Visit Us</Link></li>
+                        <li><Link to="/4shopping/about">About</Link></li>
                         {!Auth.auth && <li><Link to="/4shopping/account"><span>Login</span></Link></li>}
                         {/* {Auth.auth && <button className="cta" onClick={handleSignOut}><span>Sign out</span></button>} */}
                     </ul>

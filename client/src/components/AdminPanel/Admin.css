@@ -13,7 +13,7 @@
 
 .admin-title::after {
     content: '';
-    background: #ff523b;
+    background: #3b3bff;
     width: 80px;
     height: 5px;
     border-radius: 5px;
@@ -36,18 +36,6 @@
     align-items: center;
     box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
     padding: 20px;
-}
-
-.admin-form .submit {
-    background-color: #ff523b;
-    color: white;
-    border-radius: 30px; 
-    transition: background 0.5s;
-    cursor: pointer;
-}
-
-.admin-form .submit:hover {
-    background: #563434;
 }
 
 .admin-form-sm {
@@ -109,7 +97,7 @@
 }
 
 .test {
-    background-color: #faf1f1;
+    background-color: white;
     min-width: 100px;
     min-height: 500px;
 }   

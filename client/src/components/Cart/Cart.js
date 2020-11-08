@@ -144,15 +144,17 @@ const Cart = () => {
     }
 
     const handleQuantityChange = async (e, product) => {
-        const item = await patchQuantity(e, product)
-        const element = quantity.find((obj) => obj.productId == product._id)
-
+        
         setQuantity(quantity.map((quantity) => {
-            if(quantity.productId !== item.productId) return quantity
-            return {productId: item.productId, quantity: item.quantity}
+            if(quantity.productId !== product._id) return quantity
+            return {productId: product._id, quantity: e.target.value}
         }))
+        // setQuantity(quantity.map((quantity) => {
+        //     if(quantity.productId !== item.productId) return quantity
+        //     return {productId: item.productId, quantity: item.quantity}
+        // }))
 
-        console.log(element)
+        const item = await patchQuantity(e, product)
         console.log(item)
     }
 
@@ -188,6 +190,33 @@ const Cart = () => {
         return request
     }
 
+    const currentProductColor = (product) => {
+        const currentCartElement = cart.filter((cartElement) => cartElement.productId == product._id)
+        // console.log(currentCartElement[0].quantity)
+        return currentCartElement[0].color
+        //value is writting wrong
+    }
+
+    const currentProductSize = (product) => {
+        const currentCartElement = cart.filter((cartElement) => cartElement.productId == product._id)
+        // console.log(currentCartElement[0].quantity)
+        return currentCartElement[0].size
+        //value is writting wrong
+    }
+
+    const displayColors = (product) => (
+        <div
+            className="cart-item-color"
+            style={{backgroundColor: currentProductColor(product)}}
+        ></div>
+    )
+
+    const displaySizes = (product) => (
+        <div className="cart-item-size">
+            <p>Size: {currentProductSize(product)}</p>
+        </div>
+    )
+
 
     const displayCart = () => (
         products.map((product, i) => (
@@ -206,6 +235,10 @@ const Cart = () => {
                                 </a>
                                 <small>Price: ${product.salePrice.toFixed(2)}</small>
                                 <br />
+                                <div className="cart-colors-sizes">
+                                {displaySizes(product)}
+                                    {displayColors(product)}
+                                </div>
                                 <button 
                                     className="remove-btn" 
                                     onClick={() => removeProduct(product)}

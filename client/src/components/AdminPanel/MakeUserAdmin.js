@@ -35,7 +35,7 @@ const MakeUserAdmin = () => {
                     required 
                 /><br/>
 
-                <input className="submit" type="submit" name="Make An Admin"/>
+                <input className="btn" type="submit" name="Make An Admin"/>
             </form>
         </div>
     )

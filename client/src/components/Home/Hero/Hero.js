@@ -13,14 +13,16 @@ const Hero = () => {
 
                 <div className="row">
                     <div className="col-2">
-                        <h1>Give Your Workout<br />A New Style!</h1>
-                        <p>Success isn't always about greatness. it's about consistency. Consistent<br />hard work gains 
-                        success. Greatness will come.</p>
-                        <Link to="/4shopping/products/all" className="btn">Explore Now &#8594;</Link>
+                        <div className="text-wrapper">
+                            <h1>Get The Best Outfits<br />that makes you shine!</h1>
+                            <p>With our collections you can choose between several styles to get the ones that
+                                truly fits your character and gives you maximum confidence.</p>
+                            <Link to="/4shopping/products/offers" className="btn">Explore Offers &#8594;</Link>
+                        </div>
                     </div>
 
-                    <div className="col-2">
-                        <img src={require('../../../img/image1.png')} />
+                    <div className="col-2 img-wrapper">
+                        <img src={require('../../../img/hero.png')}/>
                     </div>
                 </div>
 

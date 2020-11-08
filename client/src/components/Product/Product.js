@@ -16,6 +16,9 @@ const Product = (props) => {
     const [productKeywords, setProductKeywords] = useState([])
     const [productImages, setProductImages] = useState([])
 
+    const [cartColor, setCartColor] = useState('')
+    const [cartSize, setCartSize] = useState('')
+
     const [quantity, setQuantity] = useState(1) //for the current product product
 
     const [currentUser, setCurrentUser] = useState({})
@@ -72,13 +75,22 @@ const Product = (props) => {
 
     const displayColors = () => (
             productColors.map((color, i) => (
-                <div className="item-color" style={{backgroundColor: color}} key={i}></div>
+                <a 
+                    onClick={(e) => setCartColor(color)} 
+                    className="item-color" 
+                    style={{backgroundColor: color}} 
+                    key={i}
+                ></a>
             ))
     )
 
     const displaySizes = () => (
             productSizes.map((size, i) => (
-                    <a href="#" className="item-size" key={i}><p>{size}</p></a>
+                    <a 
+                        onClick={(e) => setCartSize(size)} 
+                        className="item-size" 
+                        key={i}
+                    ><p>{size}</p></a>
             ))
     )
 
@@ -90,6 +102,8 @@ const Product = (props) => {
     const dataForNewToCart = {
         productId,
         userOwnerId,
+        color: cartColor,
+        size: cartSize,
         quantity,
         price: product.salePrice,
         total: product.salePrice * quantity

@@ -71,7 +71,7 @@ const EditExclusiveProduct = () => {
                 <label htmlFor="images">Product Image: </label><br/>
                 <input type="file" accept="image/png, image/jpeg" multiple ref={fileInput} /><br/>
 
-                <input className="submit" type="submit" name="Edit Exclusive Product"/>
+                <input className="btn" type="submit" name="Edit Exclusive Product"/>
             </form>
         </div>
         

@@ -20,7 +20,7 @@
 
 .title::after {
     content: '';
-    background: #ff523b;
+    background: #3b3bff;
     width: 80px;
     height: 5px;
     border-radius: 5px;
@@ -40,7 +40,7 @@ h4 {
 }
 
 .rating .fa-star{
-    color: #ff523b;
+    color: #3b3bff;
 }
 
 .col-4:hover {

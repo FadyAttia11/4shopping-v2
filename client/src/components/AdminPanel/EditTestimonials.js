@@ -74,7 +74,7 @@ const EditTestimonials = () => {
                 <label htmlFor="rating">Rating: </label>
                 <input type="number" id="rating"  />
 
-                <input className="submit" type="submit" name="Add New Product"/>
+                <input className="btn" type="submit" name="Add New Product"/>
             </form>
         </div>
     )

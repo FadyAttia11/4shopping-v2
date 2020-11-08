@@ -5,7 +5,7 @@
 }
 
 select {
-    border: 1px solid #ff523b;
+    border: 1px solid #3b3bff;
     padding: 5px;
 }
 
@@ -35,7 +35,7 @@ select:focus {
 
 .page-btn a {
     display: inline-block;
-    border: 1px solid #ff523b;
+    border: 1px solid #3b3bff;
     margin-left: 10px;
     width: 40px;
     height: 40px;
@@ -45,13 +45,13 @@ select:focus {
 }
 
 .page-btn a:hover {
-    background: #ff523b;
+    background: #3b3bff;
     color: white;
 }
 
 .current-page {
     color: #fff;
-    background-color: #ff523b;
+    background-color: #3b3bff;
  }
 
 

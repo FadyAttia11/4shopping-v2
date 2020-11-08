@@ -49,7 +49,7 @@ const EditLogos = () => {
                     <input type="file" accept="image/png, image/jpeg" multiple ref={fileInput} /><br/>
                 </div>
 
-                <input className="submit" type="submit" name="Add New Product"/>
+                <input className="btn" type="submit" name="Add New Product"/>
             </form>
         </div>
     )

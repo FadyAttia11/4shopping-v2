@@ -1,7 +1,7 @@
 
 .account-page {
     padding: 50px 0;
-    background: radial-gradient(#fff, #ffd6d6);
+    background: radial-gradient(#fff, #d6d6e4);
 }
 
 .form-container {
@@ -70,7 +70,7 @@ form .forgot-btn {
 #Indicator {
     width: 100px;
     border: none;
-    background: #ff523b;
+    background: #3b3bff;
     height: 3px;
     margin-top: 8px;
     transform: translateX(100px);

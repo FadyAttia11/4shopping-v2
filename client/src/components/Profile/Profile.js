@@ -115,7 +115,7 @@ const Profile = () => {
                     />
                     <h2>{user.name}</h2>
                     <form action="/multiple-upload" method="POST" encType="multipart/form-data">
-                        <button onClick={handleClick} className="changepic-btn">Change Profile Picture</button>
+                        <button onClick={handleClick} className="btn">Change Profile Picture</button>
                         <input 
                             type="file" 
                             style={{display:'none'}} 

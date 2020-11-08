@@ -21,7 +21,7 @@ th {
     text-align: left;
     padding: 5px;
     color: white;
-    background: #ff523b;
+    background: #3b3bff;
     font-weight: normal;
 }
 
@@ -36,7 +36,7 @@ td input {
 }
 
 td .remove-btn {
-    color: #ff523b;
+    color: #3b3bff;
     font-size: 12px;
     border: none;
     background-color: white;
@@ -59,9 +59,26 @@ td img {
 }
 
 .total-price table {
-    border-top: 3px solid #ff523b;
+    border-top: 3px solid #3b3bff;
     width: 100%;
     max-width: 400px;
+}
+
+.cart-colors-sizes {
+    display: flex;
+}
+
+.cart-item-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    margin: 6px 0 0 5px; 
+    border: 1px solid grey;
+}
+
+.cart-item-size {
+    margin-top: 10px;
 }
 
 .cart-product img, .cart-product p{
