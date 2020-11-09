@@ -33,15 +33,15 @@ router.get('/api/cart/getusercart/:id', auth, async (req, res) => {
 //edit the cart (given the product id)
 router.patch('/api/cart/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body) //take all keys and put them into an array
-    const allowedUpdates = ['quantity', 'price', 'total']
+    const allowedUpdates = ['quantity', 'unitPrice', 'totalPrice']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if(!isValidOperation) return res.status(400).send({ error: 'invalid updates!' })
 
-    const productId = req.params.id
+    const _id = req.params.id
 
     try {
-        const cart = await Cart.findOne({ productId, userOwnerId: req.user._id })
+        const cart = await Cart.findById(_id)
         if(!cart) return res.status(404).send()
 
         updates.forEach((update) => cart[update] = req.body[update])
@@ -59,11 +59,11 @@ router.patch('/api/cart/:id', auth, async (req, res) => {
 router.delete('/api/cart/:id', auth, async (req, res) => { //the id of the cart (_id)
     const _id = req.params.id
     try {
-        const cart = await Cart.findById(_id)
+        const cart = await Cart.findByIdAndDelete(_id)
         if(!cart) return res.status(404).send()
 
-        const deletedCart = await Cart.deleteOne({ _id: cart._id, color: cart.color, size: cart.size })
-        res.send(deletedCart)
+        // const deletedCart = await Cart.deleteOne({ _id: cart._id, color: cart.color, size: cart.size })
+        res.send(cart)
     }catch(e){
         res.status(500).send(e)
     }

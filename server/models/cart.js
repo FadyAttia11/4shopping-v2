@@ -11,6 +11,10 @@ const cartSchema = new mongoose.Schema({
         required: true,
         ref: "User"
     },
+    name: {
+        type: String,
+        required: true
+    },
     color: {
         type: String,
         required: true
@@ -24,13 +28,16 @@ const cartSchema = new mongoose.Schema({
         required: true
         // min: [1, 'Quantity can not be less than 1.']
     },
-    price: {
+    unitPrice: {
         type: Number,
         required: true
     },
-    total: {
+    totalPrice: {
         type: Number,
         required: true,
+    },
+    productImages: {
+        type: Array
     }
 }, {
     timestamps: true

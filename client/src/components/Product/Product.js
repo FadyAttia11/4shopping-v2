@@ -131,11 +131,13 @@ const Product = (props) => {
     const dataForNewToCart = {
         productId,
         userOwnerId,
+        name: product.name,
         color: cartColor,
         size: cartSize,
         quantity,
-        price: product.salePrice,
-        total: product.salePrice * quantity
+        unitPrice: product.salePrice,
+        totalPrice: product.salePrice * quantity,
+        productImages
     }
 
     const addNewToCart = () => {
