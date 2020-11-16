@@ -33,7 +33,7 @@ select:focus {
     margin-top: 10px;
 }
 
-.page-btn a {
+.page-num {
     display: inline-block;
     border: 1px solid #3b3bff;
     margin-left: 10px;
@@ -42,17 +42,13 @@ select:focus {
     text-align: center;
     line-height: 40px;
     cursor: pointer;
+    background-color: white;
 }
 
-.page-btn a:hover {
+.page-num:hover {
     background: #3b3bff;
     color: white;
 }
-
-.current-page {
-    color: #fff;
-    background-color: #3b3bff;
- }
 
 
 .product-img {

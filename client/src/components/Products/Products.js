@@ -81,7 +81,7 @@ const Products = (props) => {
             </div>
         )) 
     )
-
+    
 
     const displayElements = (chunk) => (
         chunk.map((item, i) => (
@@ -120,8 +120,34 @@ const Products = (props) => {
         history.push("/4shopping/products/all")
     }
 
+
+    // const search = props.location.search
+    // const params2 = (new URLSearchParams(search))
+    // const pageParam = params2.get('page')
+    // console.log(pageParam)
+
+    const links = document.querySelectorAll(`.page-num`)
+    links.forEach(function (item) {
+        item.addEventListener('click', function () {
+        
+        //reset the color of other links
+        links.forEach(function (item) {
+            item.style.backgroundColor = '#fff'
+            item.style.color = '#555'
+        })})
+    }) 
+
+    // document.querySelector(`.page-num:nth-child(2)`).style.backgroundColor = 'red'
+
+
+    //to display the number of pages
+    const fields = []
+    for (let i = 1; i <= numOfPages; i++) {
+        fields.push(<a onClick={(e) => handleClickingNumber(e, i)} key={i} className="page-num">{i}</a>)
+    }
+
     const handleClickingNumber = async (e, i) => {
-        e.preventDefault()
+        // e.preventDefault()
         // console.log(i)
 
         const search = props.location.search
@@ -130,40 +156,12 @@ const Products = (props) => {
         params.set('page', i)
         props.history.push(`?${params.toString()}`) //to set the query params when clicking page num
         setParams(params.toString())  
+
+        //styling
+        e.target.style.backgroundColor = '#3b3bff'
+        e.target.style.color = '#fff'
     }
 
-    
-    //to display the number of pages
-    const fields = []
-    for (let i = 1; i <= numOfPages; i++) {
-        fields.push(<a onClick={(e) => handleClickingNumber(e, i)} key={i} className="page-num"><span>{i}</span></a>)
-    }
-
-
-
-    const changeActivePageColor = () => {
-        const search = props.location.search
-        const params = (new URLSearchParams(search))
-        const pageParam = params.get('page')
-        console.log(pageParam)
-
-        //to change to color of the current active page (in pagination)
-        const links = document.querySelectorAll(`.page-num`)    
-        links.forEach(function (item) {
-            item.addEventListener('click', function () {
-            //reset the color of other links
-            links.forEach(function (item) {
-                item.style.backgroundColor = '#fff'
-                item.style.color = '#555'
-            })
-            // apply the style to the link
-            this.style.backgroundColor = '#ff523b'
-            this.style.color = '#fff'
-            });
-        }) 
-    }
-    changeActivePageColor()
-    
 
     return (
         <div className="small-container">

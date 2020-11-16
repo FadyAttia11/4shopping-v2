@@ -81,16 +81,13 @@ const Product = (props) => {
         //reset the color of other links
         colorsLinks.forEach(function (item) {
             item.style.border = '1px solid grey'
-        })
-        // apply the style to the link
-        this.style.border = '5px solid grey'
-        });
+        })})
     }) 
 
     const displayColors = () => (
             productColors.map((color, i) => (
                 <a 
-                    onClick={(e) => setCartColor(color)} 
+                    onClick={(e) => handleClickingColor(e, color)} 
                     className="item-color" 
                     style={{backgroundColor: color}} 
                     key={i}
@@ -98,7 +95,14 @@ const Product = (props) => {
             ))
     )
 
-  
+    const handleClickingColor = (e, color) => {
+        setCartColor(color)
+        e.target.style.border = '5px solid grey'
+        // console.log(e.target.style)
+    }
+
+
+
     const sizesLinks = document.querySelectorAll(`.item-size`)
     sizesLinks.forEach(function (item) {
         item.addEventListener('click', function () {
@@ -106,22 +110,26 @@ const Product = (props) => {
         sizesLinks.forEach(function (item) {
             item.style.backgroundColor = 'white'
             item.style.color = 'black'
-        })
-        // apply the style to the link
-        this.style.backgroundColor = 'black'
-        this.style.color = 'white'
-        });
+        })})
     }) 
 
     const displaySizes = () => (
             productSizes.map((size, i) => (
                     <a 
-                        onClick={(e) => setCartSize(size)} 
+                        onClick={(e) => handleClickingSize(e, size)} 
                         className="item-size" 
                         key={i}
                     >{size}</a>
             ))
     )
+
+
+    const handleClickingSize = (e, size) => {
+        setCartSize(size)
+        e.target.style.backgroundColor = 'black'
+        e.target.style.color = 'white'
+        // console.log(e.target.style)
+    }
 
     const addToCart = async () => {
         const addNewCartToServer = await addNewToCart()
