@@ -269,10 +269,10 @@ const Product = (props) => {
 
                     <div className="price-wrapper">
                         {(product.price == product.salePrice) ? (
-                            <p className="price-after">${product.salePrice} USD</p>
+                            <p className="price-after">£{product.salePrice} L.E</p>
                         ) : (
-                            <><p className="price-before">${product.price} USD</p>
-                            <p className="price-after">${product.salePrice} USD</p></>
+                            <><p className="price-before">£{product.price} L.E</p>
+                            <p className="price-after">£{product.salePrice} L.E</p></>
                         ) }
                     </div>
 

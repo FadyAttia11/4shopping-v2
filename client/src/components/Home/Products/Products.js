@@ -87,7 +87,14 @@ const Products = () => {
                         <FontAwesomeIcon icon={faStar} className="fa-star" />
                         <FontAwesomeIcon icon={faStar} className="fa-star" />
                     </div>
-                    <p>${item.salePrice} USD</p>
+                    <div className="price-wrapper">
+                        {(item.price == item.salePrice) ? (
+                            <p className="price-after">£{item.salePrice} L.E</p>
+                        ) : (
+                            <><p className="price-before">£{item.price} L.E</p>
+                            <p className="price-after">£{item.salePrice} L.E</p></>
+                        ) }
+                    </div>
                 </div>
         ))
     )
@@ -110,7 +117,14 @@ const Products = () => {
                         <FontAwesomeIcon icon={faStar} className="fa-star" />
                         <FontAwesomeIcon icon={faStar} className="fa-star" />
                     </div>
-                    <p>${item.salePrice} USD</p>
+                    <div className="price-wrapper">
+                        {(item.price == item.salePrice) ? (
+                            <p className="price-after">£{item.salePrice} L.E</p>
+                        ) : (
+                            <><p className="price-before">£{item.price} L.E</p>
+                            <p className="price-after">£{item.salePrice} L.E</p></>
+                        ) }
+                    </div>
                 </div>
         ))
     )

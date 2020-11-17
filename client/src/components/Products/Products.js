@@ -20,7 +20,7 @@ const Products = (props) => {
             const items = await getItemFromDB() 
             const count = await getCountFromDB() //returns as string (need to be parseInt())
             // console.log(items)
-            setItems(items)
+            setItems(items.reverse())
             const numOfPages = Math.ceil(parseInt(count) / 20)
             setNumOfPages(numOfPages)  
         }
@@ -106,10 +106,10 @@ const Products = (props) => {
 
                 <div className="price-wrapper">
                     {(item.price == item.salePrice) ? (
-                        <p className="price-after">${item.salePrice} USD</p>
+                        <p className="price-after">£{item.salePrice} L.E</p>
                     ) : (
-                        <><p className="price-before">${item.price} USD</p>
-                        <p className="price-after">${item.salePrice} USD</p></>
+                        <><p className="price-before">£{item.price} L.E</p>
+                        <p className="price-after">£{item.salePrice} L.E</p></>
                     ) }
                 </div>
             </div>

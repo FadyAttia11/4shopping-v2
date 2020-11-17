@@ -17,7 +17,7 @@ const Offers = () => {
         async function getAllItems() {
             const offerItems = await getItemFromDB() 
             // console.log(items)
-            setItems(offerItems)
+            setItems(offerItems.reverse())
             setProductImages(items.productImages)
         }
         getAllItems()
@@ -69,8 +69,8 @@ const Offers = () => {
                     <a href="#reviews" data-after="Reviews">{item.reviews.length} reviews</a>
                 </div>
                 <div className="price-wrapper">
-                    <p className="price-before">${item.price} USD</p>
-                    <p className="price-after">${item.salePrice} USD</p>
+                    <p className="price-before">£{item.price} L.E</p>
+                    <p className="price-after">£{item.salePrice} L.E</p>
                 </div>
             </div>
         ))
