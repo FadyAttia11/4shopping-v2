@@ -110,13 +110,22 @@ router.get('/api/items/all', async (req, res) => {
     try {
         const page = (req.query.page)
         const category = req.query.category
-        console.log(page)
-        console.log(category)
+        // console.log(page)
+        // console.log(category)
         const items = await Item.getItemsPerPage(page, category) //go to method to get 20 per page
         res.send(items)
     } catch (e) {
         return res.status(500).json(e)
     }
+})
+
+//get all items that have discount (the offers) => (with pagination - NOT TESTED)
+router.get('/api/items/offers', async (req, res) => {
+    const page = (req.query.page)
+    const items = await Item.find({})
+    offerItems = items.filter((item) => item.price !== item.salePrice)
+    // const items = await Item.getOffersPerPage(page) //go to method to get 20 per page
+    res.send(offerItems)
 })
 
 
@@ -156,12 +165,7 @@ router.get('/api/items', async (req, res) => {
 })
 
 
-//get all items that have discount (the offers)
-router.get('/api/items/offers', async (req, res) => {
-    const items = await Item.find({})
-    const offerItems = items.filter((item) => item.price !== item.salePrice)
-    res.send(offerItems)
-})
+
 
 
 router.post('/api/items/find', async (req, res) => {

@@ -41,7 +41,7 @@ const Offer = () => {
                         <p>Exclusively Available on <span>4</span>Shopping Website</p>
                         <h1>{offer[0].name}</h1>
                         <small>{offer[0].description}</small><br />
-                        <Link to="/cart" className="btn">Buy Now &#8594;</Link>
+                        <Link onClick={(e) => e.preventDefault()} className="btn">Buy Now &#8594;</Link>
                     </div>
                     
                 </div>

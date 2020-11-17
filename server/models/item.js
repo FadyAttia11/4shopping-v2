@@ -79,6 +79,18 @@ itemSchema.statics.getItemsPerPage = (page = 1, category) => {
             .limit(PAGE_SIZE)
 }
 
+
+// //WRONG implementation (.skip.limit has to be attached to Item.find({}))
+// itemSchema.statics.getOffersPerPage = async (page = 1) => {
+//     const PAGE_SIZE = 20; //limit the single page size to 20
+//     const skip = (page - 1) * PAGE_SIZE //skip 0 for 1st page, 20 for 2nd page, 40 for ...
+
+//     const items = await Item.find({})
+//     offerItems = items.filter((item) => item.price !== item.salePrice)
+//     return offerItems.skip(skip).limit(PAGE_SIZE)
+//     // return offerItems
+// }
+
 const Item = mongoose.model('Item', itemSchema)
 
 module.exports = Item

@@ -44,7 +44,7 @@ const Products = (props) => {
         if(params !== ''){
             async function getItems() {
                 const items = await getItemFromDB()
-                setItems(items)
+                setItems(items.reverse())
             }
             getItems()
         }

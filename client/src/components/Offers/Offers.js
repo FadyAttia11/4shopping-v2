@@ -4,11 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
-const Offers = () => {
+const Offers = (props) => {
 
     const [items, setItems] = useState([])
     const[chuncks, setChunks] = useState([])
     const[productImages, setProductImages] = useState([])
+    const [numOfPages, setNumOfPages] = useState(0)
+    const [params, setParams] = useState('')
     const n = 4 //tweak this to add more items per line
 
     const history = useHistory()
@@ -16,9 +18,13 @@ const Offers = () => {
     useEffect(() => {
         async function getAllItems() {
             const offerItems = await getItemFromDB() 
+            const count = await getCountFromDB() //returns as string (need to be parseInt())
             // console.log(items)
             setItems(offerItems.reverse())
             setProductImages(items.productImages)
+
+            const numOfPages = Math.ceil(parseInt(count) / 20)
+            setNumOfPages(numOfPages) 
         }
         getAllItems()
     }, [])
@@ -32,10 +38,28 @@ const Offers = () => {
         }
     }, [items])
 
+    useEffect(() => {
+        if(params !== ''){
+            async function getItems() {
+                const items = await getItemFromDB()
+                setItems(items.reverse())
+            }
+            getItems()
+        }
+    }, [params])
+
     const getItemFromDB = () => {
-        const request = axios.get('/api/items/offers')
+        const search = props.location.search
+        const params = (new URLSearchParams(search))
+        const request = axios.get(`/api/items/offers?page=${params.get('page')}}`)
                             .then(response => response.data)
             return request
+    }
+
+    const getCountFromDB = () => {
+        const request = axios.get("/api/items/all/count")
+                            .then(response => response.data)
+        return request
     }
 
 
@@ -76,7 +100,27 @@ const Offers = () => {
         ))
     )
 
+    //to display the number of pages
+    const fields = []
+    for (let i = 1; i <= numOfPages; i++) {
+        fields.push(<a onClick={(e) => handleClickingNumber(e, i)} key={i} className="page-num">{i}</a>)
+    }
 
+    const handleClickingNumber = async (e, i) => {
+        // e.preventDefault()
+        // console.log(i)
+
+        const search = props.location.search
+        const params = (new URLSearchParams(search))
+
+        params.set('page', i)
+        props.history.push(`?${params.toString()}`) //to set the query params when clicking page num
+        setParams(params.toString())  
+
+        //styling
+        e.target.style.backgroundColor = '#3b3bff'
+        e.target.style.color = '#fff'
+    }
 
     return (
         <div className="small-container">
@@ -91,17 +135,19 @@ const Offers = () => {
                 </select>
             </div>
 
+            <div className="page-btn">
+                {fields}
+                {/* <a><span>&#8594;</span></a> */}
+            </div>
+
             {
                 <div>{displayChuncks()}</div>
             }
         
 
             <div className="page-btn">
-                <span>1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>4</span>
-                <span>&#8594;</span>
+                {fields}
+                {/* <a><span>&#8594;</span></a> */}
             </div>
         </div>
     )
