@@ -4,9 +4,9 @@
     padding: 20px;
 }
 
-/* .wrapper {
-    background-color: #ffe2e2;
-} */
+.wrapper {
+    background: rgb(253, 238, 255);
+}
 
 nav {
     flex: 1;

@@ -31,14 +31,16 @@ const upload = multer({
 }) 
 
 
-router.post('/api/items', upload.array('productImages', 20),async (req, res) => {
+router.post('/api/items', upload.array('productImages', 50),async (req, res) => {
     let numberOfPhotos = req.files.length;
     console.log(numberOfPhotos)
+    const details = req.body.details.split("/")
     if(req.body.colors) if(!Array.isArray(req.body.colors)) req.body.colors = req.body.colors.split(" ")
     if(req.body.sizes) if(!Array.isArray(req.body.sizes)) req.body.sizes = req.body.sizes.split(" ")
     if(req.body.keywords) if(!Array.isArray(req.body.keywords)) req.body.keywords = req.body.keywords.split(" ")
     const item = new Item({ 
         ...req.body,
+        details,
         productImages: (req.files.length !== 0) ? (req.files.map((file) => file.path)) : ([])
         // productImages: (req.files.length !== 0) ? ([req.files[0].path, req.files[1].path, req.files[2].path, req.files[3].path]) : ([])
     })

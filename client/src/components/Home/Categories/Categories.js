@@ -9,6 +9,7 @@ const Home = () => {
     return (
         <div className="categories">
             <div className="small-container">
+                <h2 className="title">Explore Categories</h2>
                 <div className="row">
                     <div className="col-3">
                         <a onClick={() => {history.push("/4shopping/products?category=shirts")}}>

@@ -62,7 +62,7 @@ itemSchema.statics.getItemsPerPage = (page = 1, category) => {
     const PAGE_SIZE = 20; //limit the single page size to 20
     const skip = (page - 1) * PAGE_SIZE //skip 0 for 1st page, 20 for 2nd page, 40 for ...
     if(category === 'shirts') {
-        return Item.find({category: {$in: ['t-shirt', 'shirt', 'sweatshirt']}})
+        return Item.find({category: {$in: ['t-shirt', 'shirt', 'hoodie']}})
             .skip(skip)
             .limit(PAGE_SIZE)
     } else if (category === 'pants') {

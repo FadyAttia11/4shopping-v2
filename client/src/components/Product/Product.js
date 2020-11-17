@@ -87,6 +87,11 @@ const Product = (props) => {
     }, [productColors])
 
     useEffect(() => {
+        setCartColor(productColors[0])
+        setCartSize(productSizes[0])
+    }, [productColors, productSizes])
+
+    useEffect(() => {
         if(imageColorsArray.length !== 0) {
             console.log(imageColorsArray)
             if(imageColorsArray[0].length !== 0) {
@@ -220,7 +225,7 @@ const Product = (props) => {
                     require('../../img/no-photo.jpg')
                 }
             alt="personal-img" 
-            style={{width: "100%", height: "429.5px"}} 
+            style={{width: "100%", maxHeight: "633px", marginLeft: "5px"}} 
             id="productImg"
         />
     )
@@ -230,7 +235,7 @@ const Product = (props) => {
             <div className="small-img-col" key={i}>
                 <img 
                     src={`http://localhost:5000/${image}`} 
-                    style={{width: "100%"}} 
+                    // style={{width: "100%"}} 
                     className="small-img"
                     id={i}
                     onClick={() => document.getElementById("productImg").src = document.getElementById(i).src}
@@ -241,18 +246,18 @@ const Product = (props) => {
 
     return (
         <div className="small-container single-product">
-            <div className="row">
-                <div className="col-2">
+            <div className="row product-all">
+                <div className="col-2 all-images">
                     {renderBigImg()}
                     
                     {<div className="small-img-row">
                         {renderSmallPics()}
-                    </div>}  
+                    </div>}
                 </div>
 
                 <div className="col-2">
                     <p><Link to="/4shopping/products/all">All Products</Link> / {product.category}</p>
-                    <h1>{product.name}</h1>
+                    <h1 style={{fontSize: "2.2rem", margin: "15px 0", lineHeight: "100%"}}>{product.name} - {cartColor}</h1>
                     <div className="rating">
                         <FontAwesomeIcon icon={faStar} className="fa-star" />
                         <FontAwesomeIcon icon={faStar} className="fa-star" />
@@ -296,7 +301,9 @@ const Product = (props) => {
 
                     <h3>Product Details <FontAwesomeIcon icon={faIndent} className="fa-indent" /></h3>
                     <br />
-                    {productDetails}
+                    {productDetails.map((productDetail, i) => (
+                        <div key={i}>* {productDetail}</div>
+                    ))}
                     {/* <p>Give your summer wardrobe a style upgrade with the HRX Men's active T-Shirt. Team it with a 
                         pair of shorts for your morning workout or a denims for an evening out with the guys.
                     </p> */}
