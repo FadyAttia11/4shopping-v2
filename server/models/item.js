@@ -7,6 +7,9 @@ const itemSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    details: {
+        type: Array
+    },
     category: { // Shirt, Jeans, or Sneakers
         type: String,
         required: true,

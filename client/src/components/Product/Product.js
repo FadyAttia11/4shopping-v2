@@ -15,6 +15,7 @@ const Product = (props) => {
     const [productSizes, setProductSizes] = useState([])
     const [productKeywords, setProductKeywords] = useState([])
     const [productImages, setProductImages] = useState([])
+    const [productDetails, setProductDetails] = useState([])
 
     const [cartColor, setCartColor] = useState('')
     const [cartSize, setCartSize] = useState('')
@@ -50,6 +51,7 @@ const Product = (props) => {
             setProductSizes(product.sizes)
             setProductKeywords(product.keywords)
             setProductImages(product.productImages)
+            setProductDetails(product.details)
         }
     }, [product])
 
@@ -230,9 +232,10 @@ const Product = (props) => {
 
                     <h3>Product Details <FontAwesomeIcon icon={faIndent} className="fa-indent" /></h3>
                     <br />
-                    <p>Give your summer wardrobe a style upgrade with the HRX Men's active T-Shirt. Team it with a 
+                    {productDetails}
+                    {/* <p>Give your summer wardrobe a style upgrade with the HRX Men's active T-Shirt. Team it with a 
                         pair of shorts for your morning workout or a denims for an evening out with the guys.
-                    </p>
+                    </p> */}
                 </div>
             </div>
 
