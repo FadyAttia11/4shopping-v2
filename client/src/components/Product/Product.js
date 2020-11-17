@@ -20,6 +20,10 @@ const Product = (props) => {
     const [cartColor, setCartColor] = useState('')
     const [cartSize, setCartSize] = useState('')
 
+    const [bigImage, setBigImage] = useState('')
+    const [imageColorsArray, setImageColorsArray] = useState([])
+    const [smallImages, setSmallImages] = useState([])
+
     const [quantity, setQuantity] = useState(1) //for the current product product
 
     const [currentUser, setCurrentUser] = useState({})
@@ -52,8 +56,45 @@ const Product = (props) => {
             setProductKeywords(product.keywords)
             setProductImages(product.productImages)
             setProductDetails(product.details)
+            setBigImage('uploads\\products\\1605624203696no-photo.jpg')
         }
     }, [product])
+
+    useEffect(() => {
+        let imageColorsArray = []
+        // let currentColor = []
+
+        // if(bigImage.length !== 0 && productColors.length !== 0) {
+        //     const firstColor = productImages.filter(image => image.slice(30, -6) == productColors[0])
+        //     setBigImage((firstColor[0]))
+        // }
+
+        productColors.map((color) => {
+        const currentColor = productImages.filter(image => image.slice(30, -6) == color)
+            imageColorsArray.push(currentColor)
+
+            // if(currentColor.length !== 0) {
+            //     setBigImage(currentColor[0])
+            // }
+
+            console.log("imageColorsArray: ", imageColorsArray)
+        })
+
+        setImageColorsArray(imageColorsArray)
+        // console.log(productImages)
+        // console.log(productColors)
+
+    }, [productColors])
+
+    useEffect(() => {
+        if(imageColorsArray.length !== 0) {
+            console.log(imageColorsArray)
+            if(imageColorsArray[0].length !== 0) {
+                setBigImage(imageColorsArray[0][0])
+                setSmallImages(imageColorsArray[0])
+            } 
+        } 
+    }, [imageColorsArray])
 
     useEffect(() => {
         async function getUserInfo() {
@@ -100,9 +141,22 @@ const Product = (props) => {
     const handleClickingColor = (e, color) => {
         setCartColor(color)
         e.target.style.border = '5px solid grey'
-        // console.log(e.target.style)
-    }
 
+        let colorsHaveImagesArray = []
+
+        imageColorsArray.map((singleColorArray) => {
+            if(singleColorArray.length !== 0) colorsHaveImagesArray.push(singleColorArray[0].slice(30, -6))
+            if(singleColorArray.length !== 0 && singleColorArray[0].slice(30, -6) == color) {
+                setBigImage(singleColorArray[0])
+                setSmallImages(singleColorArray)
+            }
+        })
+
+        if(colorsHaveImagesArray.filter(colorHaveImages => colorHaveImages == color).length == 0) {
+            setBigImage('uploads\\products\\1605624203696no-photo.jpg')
+            setSmallImages([])
+        }
+    }
 
 
     const sizesLinks = document.querySelectorAll(`.item-size`)
@@ -155,9 +209,24 @@ const Product = (props) => {
                             .then(response => response.data)
         return request
     }
+    
+
+    const renderBigImg = () => (
+        <img 
+            src=
+                { productImages.length !== 0 && productColors.length !== 0 ? 
+                    `http://localhost:5000/${bigImage}`
+                    : 
+                    require('../../img/no-photo.jpg')
+                }
+            alt="personal-img" 
+            style={{width: "100%", height: "429.5px"}} 
+            id="productImg"
+        />
+    )
 
     const renderSmallPics = () => (
-        productImages.map((image, i) => (
+        smallImages.map((image, i) => (
             <div className="small-img-col" key={i}>
                 <img 
                     src={`http://localhost:5000/${image}`} 
@@ -174,12 +243,7 @@ const Product = (props) => {
         <div className="small-container single-product">
             <div className="row">
                 <div className="col-2">
-                    <img 
-                        src={ productImages.length !== 0 ? `http://localhost:5000/${productImages[0]}` : require('../../img/gallery-1.jpg')} 
-                        alt="personal-img" 
-                        style={{width: "100%", height: "429.5px"}} 
-                        id="productImg" 
-                    />
+                    {renderBigImg()}
                     
                     {<div className="small-img-row">
                         {renderSmallPics()}

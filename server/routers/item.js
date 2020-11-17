@@ -25,13 +25,13 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ 
     storage: storage, 
     limits: {
-        fileSize: 1024 * 1024 //a number in bytes (this is 1mb)
+        fileSize: 1024 * 1024 * 5 //a number in bytes (this is 1mb)
     },
     fileFilter: fileFilter
 }) 
 
 
-router.post('/api/items', upload.array('productImages', 4),async (req, res) => {
+router.post('/api/items', upload.array('productImages', 20),async (req, res) => {
     let numberOfPhotos = req.files.length;
     console.log(numberOfPhotos)
     if(req.body.colors) if(!Array.isArray(req.body.colors)) req.body.colors = req.body.colors.split(" ")
