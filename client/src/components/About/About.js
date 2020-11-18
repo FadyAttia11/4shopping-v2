@@ -17,7 +17,7 @@ const About = () => {
                 </div>
 
                 <div className="about-info-wrapper">
-                <a href="https://fadyattia11.github.io/4for-react/" target="_blank"><img 
+                    <a href="https://fadyattia11.github.io/4for-react/" target="_blank"><img 
                         src={require('../../img/4for-logo.png')} 
                         alt="4for-logo" 
                         className="for-logo"

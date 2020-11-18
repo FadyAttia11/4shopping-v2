@@ -57,3 +57,16 @@
     margin-top: 20px;
     margin-left: 30px;
 }
+
+@media only screen and (max-width: 800px) {
+    .about-top {
+        text-align: center;
+        justify-content: center;
+        
+    }
+    .about-info-wrapper {
+        margin: 50px 0;
+    }
+
+    
+}
