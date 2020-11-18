@@ -31,6 +31,11 @@ const About = () => {
                             alt="linkedin-logo" 
                             className="linkedin-logo"
                         /></a>
+                        <a href="https://twitter.com/FadyAttia12" target="_blank"><img 
+                            src={require('../../img/twitter-logo.png')} 
+                            alt="twitter-logo" 
+                            className="twitter-logo"
+                        /></a>
                     </div>
                 </div>
             </div>
