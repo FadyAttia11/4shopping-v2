@@ -122,10 +122,20 @@ router.get('/api/items/all', async (req, res) => {
 //get all items that have discount (the offers) => (with pagination - NOT TESTED)
 router.get('/api/items/offers', async (req, res) => {
     const page = (req.query.page)
+    // const items = await Item.find({})
+    // offerItems = items.filter((item) => item.price !== item.salePrice)
+    const items = await Item.getOffersPerPage(page) //go to method to get 20 per page
+    res.send(items)
+})
+
+
+//get offers item total count
+router.get('/api/items/offers/count', async (req, res) => {
     const items = await Item.find({})
-    offerItems = items.filter((item) => item.price !== item.salePrice)
-    // const items = await Item.getOffersPerPage(page) //go to method to get 20 per page
-    res.send(offerItems)
+    const filteredItems = items.filter(item => item.price !== item.salePrice)
+    const count = filteredItems.length
+    const stringCount = count.toString() //res.send() doesn't allow integer to be send back !
+    res.send(stringCount)
 })
 
 

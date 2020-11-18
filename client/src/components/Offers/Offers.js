@@ -20,7 +20,7 @@ const Offers = (props) => {
             const offerItems = await getItemFromDB() 
             const count = await getCountFromDB() //returns as string (need to be parseInt())
             // console.log(items)
-            setItems(offerItems.reverse())
+            setItems(offerItems)
             setProductImages(items.productImages)
 
             const numOfPages = Math.ceil(parseInt(count) / 20)
@@ -42,7 +42,7 @@ const Offers = (props) => {
         if(params !== ''){
             async function getItems() {
                 const items = await getItemFromDB()
-                setItems(items.reverse())
+                setItems(items)
             }
             getItems()
         }
@@ -51,13 +51,13 @@ const Offers = (props) => {
     const getItemFromDB = () => {
         const search = props.location.search
         const params = (new URLSearchParams(search))
-        const request = axios.get(`/api/items/offers?page=${params.get('page')}}`)
+        const request = axios.get(`/api/items/offers?page=${params.get('page')}`)
                             .then(response => response.data)
             return request
     }
 
     const getCountFromDB = () => {
-        const request = axios.get("/api/items/all/count")
+        const request = axios.get("/api/items/offers/count")
                             .then(response => response.data)
         return request
     }
@@ -99,6 +99,18 @@ const Offers = (props) => {
             </div>
         ))
     )
+
+    const links = document.querySelectorAll(`.page-num`)
+    links.forEach(function (item) {
+        item.addEventListener('click', function () {
+        
+        //reset the color of other links
+        links.forEach(function (item) {
+            item.style.backgroundColor = '#fff'
+            item.style.color = '#555'
+        })})
+    }) 
+
 
     //to display the number of pages
     const fields = []

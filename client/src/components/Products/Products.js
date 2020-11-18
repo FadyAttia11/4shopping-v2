@@ -20,7 +20,7 @@ const Products = (props) => {
             const items = await getItemFromDB() 
             const count = await getCountFromDB() //returns as string (need to be parseInt())
             // console.log(items)
-            setItems(items.reverse())
+            setItems(items)
             const numOfPages = Math.ceil(parseInt(count) / 20)
             setNumOfPages(numOfPages)  
         }
@@ -44,7 +44,7 @@ const Products = (props) => {
         if(params !== ''){
             async function getItems() {
                 const items = await getItemFromDB()
-                setItems(items.reverse())
+                setItems(items)
             }
             getItems()
         }

@@ -63,33 +63,43 @@ itemSchema.statics.getItemsPerPage = (page = 1, category) => {
     const skip = (page - 1) * PAGE_SIZE //skip 0 for 1st page, 20 for 2nd page, 40 for ...
     if(category === 'shirts') {
         return Item.find({category: {$in: ['t-shirt', 'shirt', 'hoodie']}})
+            .sort({ _id: "desc" })
             .skip(skip)
             .limit(PAGE_SIZE)
     } else if (category === 'pants') {
         return Item.find({category: {$in: ['jeans', 'sweatpants']}})
+            .sort({ _id: "desc" })
             .skip(skip)
             .limit(PAGE_SIZE)
     } else if (category === 'shoes') {
         return Item.find({category: {$in: ['shoes', 'sneakers']}})
+            .sort({ _id: "desc" })
             .skip(skip)
             .limit(PAGE_SIZE)
     }
     return Item.find({})
+            .sort({ _id: "desc" })
             .skip(skip)
             .limit(PAGE_SIZE)
 }
 
+let j =0 ;
 
-// //WRONG implementation (.skip.limit has to be attached to Item.find({}))
-// itemSchema.statics.getOffersPerPage = async (page = 1) => {
-//     const PAGE_SIZE = 20; //limit the single page size to 20
-//     const skip = (page - 1) * PAGE_SIZE //skip 0 for 1st page, 20 for 2nd page, 40 for ...
+//1st find gets all element, then after filtering the 2nd find sort and paging
+itemSchema.statics.getOffersPerPage = async (page = 1) => {
+    const PAGE_SIZE = 20; //limit the single page size to 20
+    const skip = (page - 1) * PAGE_SIZE //skip 0 for 1st page, 20 for 2nd page, 40 for ...
 
-//     const items = await Item.find({})
-//     offerItems = items.filter((item) => item.price !== item.salePrice)
-//     return offerItems.skip(skip).limit(PAGE_SIZE)
-//     // return offerItems
-// }
+    const items = await Item.find({})
+    const filteredItems = items.filter(item => item.price !== item.salePrice)
+    const finalItems = await Item.find({ _id: {$in: filteredItems.map(item => item._id)}})
+        .sort({ _id: "desc" })
+        .skip(skip)
+        .limit(PAGE_SIZE)                       
+    
+    return finalItems
+}
+
 
 const Item = mongoose.model('Item', itemSchema)
 

@@ -97,6 +97,15 @@ p {
         display: block;
         cursor: pointer;
     }
+
+    /* NEW */
+    .text-wrapper {
+        margin-top: 0;
+    }
+
+    .img-wrapper {
+        display: none;
+    }
 }
 
 
