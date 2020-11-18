@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import AuthApi from '../../context/AuthApi'
 import Home from '../Home/Home'
+import About from '../About/About'
 import Products from '../Products/Products'
 import Product from '../Product/Product'
 import Cart from '../Cart/Cart'
@@ -21,6 +22,7 @@ const Routes = () => {
     return (
         <Switch>
             <Route exact path="/4shopping/" component={Home} />
+            <Route exact path="/4shopping/about" component={About} />
             <Route path="/4shopping/products" component={Products} />
             <Route path="/4shopping/offers" component={Offers} />
             <Route path="/4shopping/product" component={Product} />
