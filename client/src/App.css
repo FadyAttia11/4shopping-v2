@@ -15,5 +15,10 @@ body {
 .container {
     max-width: 1300px;
     margin: auto; /* to center it  */
-    padding: 0 25px;
+    padding: 0 25px;  
+}
+
+.pages-content {
+    min-height: calc(100vh - 273px);    /* 273 is the ideal number */
+
 }

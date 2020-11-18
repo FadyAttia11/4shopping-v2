@@ -30,8 +30,10 @@ const App = () => {
     <AuthApi.Provider value={{ auth, setAuth }}>
       <Router>
         <ScrollToTop />
-        <Navbar />
-        <Routes />
+        <div className="pages-content">
+          <Navbar />
+          <Routes />
+        </div>
         <Footer />
       </Router>
     </AuthApi.Provider>

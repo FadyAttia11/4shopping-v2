@@ -16,7 +16,7 @@ const Footer = () => {
                     </div>
                     <div className="footer-col-2">
                     <img src={require('../../img/4shopping-dark.png')} />
-                        <p>Our Purpose Is To Substainbly Make the Pleasure and Benefits of Sports Accessible to the Many.</p>
+                        <p>Our Purpose Is To Give our clients various clothes styles with the best available quality.</p>
                     </div>
                     <div className="footer-col-3">
                         <h3>Useful Links</h3>
