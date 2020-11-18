@@ -225,8 +225,8 @@ const Product = (props) => {
                     require('../../img/no-photo.jpg')
                 }
             alt="personal-img" 
-            style={{width: "100%", maxHeight: "633px", marginLeft: "5px"}} 
             id="productImg"
+            className="big-image"
         />
     )
 
@@ -248,11 +248,12 @@ const Product = (props) => {
         <div className="small-container single-product">
             <div className="row product-all">
                 <div className="col-2 all-images">
+                    
                     {renderBigImg()}
                     
-                    {<div className="small-img-row">
+                    <div className="small-img-row">
                         {renderSmallPics()}
-                    </div>}
+                    </div>
                 </div>
 
                 <div className="col-2">

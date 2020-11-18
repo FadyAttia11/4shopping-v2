@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="container">
             <div className="navbar">
                 <div className="logo">
-                    <Link to="/4shopping/"><img src={require('../../../img/4shopping-light.png')} style={{width: "150px"}} /></Link>
+                    <Link to="/4shopping/"><img src={require('../../../img/4shopping-light.png')} /></Link>
                 </div>
 
                 <nav>

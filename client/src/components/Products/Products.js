@@ -89,7 +89,7 @@ const Products = (props) => {
                 <a onClick={() => {history.push(`/4shopping/product/${item._id}`)}}>
                     <img 
                         src={ item.productImages.length !== 0 ? `http://localhost:5000/${item.productImages[0]}` : require('../../img/product-1.jpg')} 
-                        style={{width: "100%", height: "356px"}} 
+                        style={{width: "100%"}} 
                         className="product-img"
                         alt="product-img" 
                     />

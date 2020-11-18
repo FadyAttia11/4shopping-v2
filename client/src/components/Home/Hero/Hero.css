@@ -66,37 +66,12 @@ p {
     /* margin-top: 70px; */
 }
 
-.menu-icon {
-    width: 28px;
-    margin-left: 20px;
-    display: none;
-}
+
 
 
 @media only screen and (max-width: 800px) {
-    nav ul {
-        position: absolute;
-        top: 70px;
-        left: 0;
-        background: #333;
-        width: 100%;
-        overflow: hidden;
-        transition: max-height 0.5s;
-    }
 
-    nav ul li {
-        display: block;
-        margin: 10px 50px 10px 0;
-    }
-
-    nav ul li a {
-        color: white;
-    }
-
-    .menu-icon {
-        display: block;
-        cursor: pointer;
-    }
+    
 
     /* NEW */
     .text-wrapper {

@@ -76,7 +76,7 @@ const Products = () => {
                         <img 
                             src={ item.productImages.length !== 0 ? `http://localhost:5000/${item.productImages[0]}` : require('../../../img/product-1.jpg')} 
                             className="product-img"
-                            style={{width: "100%", height: "356px"}}
+                            style={{width: "100%"}}
                         />
                         <h4 className="product-name">{item.name}</h4>
                     </a>
@@ -106,7 +106,7 @@ const Products = () => {
                         <img 
                             src={ item.productImages.length !== 0 ? `http://localhost:5000/${item.productImages[0]}` : require('../../../img/product-1.jpg')} 
                             className="product-img"
-                            style={{width: "100%", height: "356px"}}
+                            style={{width: "100%"}} 
                         />
                         <h4 className="product-name">{item.name}</h4>
                     </a>
@@ -135,11 +135,11 @@ const Products = () => {
         <div className="small-container">
 
             <h2 className="title">Featured Products</h2>
-            {<div className="row">{displayFeatured()}</div>}
+            <div className="row">{displayFeatured()}</div>
 
 
             <h2 className="title">Latest Products</h2>
-            {<div>{displayLatestChunk()}</div>}
+            <div>{displayLatestChunk()}</div>
             
         </div>
     )

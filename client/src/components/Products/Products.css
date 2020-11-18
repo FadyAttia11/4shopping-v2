@@ -53,7 +53,6 @@ select:focus {
 
 .product-img {
     cursor: pointer;
-    height: 316.66px;
 }
 
 .product-name {
@@ -71,5 +70,10 @@ select:focus {
 .all-product-headline {
     cursor: pointer;
 }  
+
+
+@media only screen and (max-width: 600px) {
+    
+}
 
 
