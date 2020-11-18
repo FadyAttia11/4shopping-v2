@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react'
 import './Product.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faIndent } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 
 const Product = (props) => {
+
+    const [allItems, setAllItems] = useState([])
+    const [featuredItems, setFeaturedItems] = useState([]) //array of the last 4 featured
 
     const [productId, setProductId] = useState('')
     const [product, setProduct] = useState({})
@@ -31,9 +34,23 @@ const Product = (props) => {
 
     const headers = { Authorization: `Bearer ${Cookies.get('x_auth')}`}
 
+    const history = useHistory()
+
     useEffect(() => {
-        setProductId(props.location.pathname.slice(19)) //slice /4shopping/product from the path & just keep the id
+        async function start() {
+            setProductId(props.location.pathname.slice(19)) //slice /4shopping/product from the path & just keep the id
+
+            const allItems = await axios.get('/api/items').then(response => response.data)
+            setAllItems(allItems.reverse())
+        }
+        start()
     }, [])
+
+    useEffect(() => {
+        console.log(allItems)
+        const featuredItems = allItems.filter(item => item.featured === true)
+        setFeaturedItems(featuredItems.slice(0, 4)) //set the featured to be the latest 4
+    }, [allItems])
 
 
     useEffect(() => {
@@ -243,6 +260,36 @@ const Product = (props) => {
             </div>
         ))
     )
+    
+    const displayFeatured = () => (
+        featuredItems.map((item, i) => (
+            <div className="col-4" key={i}>
+                    <a onClick={() => {history.push(`/4shopping/product/${item._id}`)}}>
+                        <img 
+                            src={ item.productImages.length !== 0 ? `http://localhost:5000/${item.productImages[0]}` : require('../../img/product-1.jpg')} 
+                            className="product-img"
+                            style={{width: "100%"}} 
+                        />
+                        <h4 className="product-name">{item.name}</h4>
+                    </a>
+                    <div className="rating">
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                        <FontAwesomeIcon icon={faStar} className="fa-star" />
+                    </div>
+                    <div className="price-wrapper">
+                        {(item.price == item.salePrice) ? (
+                            <p className="price-after">£{item.salePrice} L.E</p>
+                        ) : (
+                            <><p className="price-before">£{item.price} L.E</p>
+                            <p className="price-after">£{item.salePrice} L.E</p></>
+                        ) }
+                    </div>
+                </div>
+        ))
+    )
 
     return (
         <div className="small-container single-product">
@@ -305,75 +352,21 @@ const Product = (props) => {
                     {productDetails.map((productDetail, i) => (
                         <div key={i}>* {productDetail}</div>
                     ))}
-                    {/* <p>Give your summer wardrobe a style upgrade with the HRX Men's active T-Shirt. Team it with a 
-                        pair of shorts for your morning workout or a denims for an evening out with the guys.
-                    </p> */}
                 </div>
             </div>
 
 
-            {/* Related Products  */}
 
             <div className="small-container">
                 <div className="row row-2">
-                    <h2>Related Products</h2>
+                    <h2>More Good Stuff</h2>
                     <p>View More</p>
                 </div>
             </div>
 
             <section className="small-container" id="reviews">
                 <div className="row">
-                    <div className="col-4">
-                        <img src={require('../../img/product-1.jpg')} />
-                        <h4>Red Printed T-Shirt</h4>
-                        <div className="rating">
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        </div>
-                        <p>$50.00</p>
-                    </div>
-
-                    <div className="col-4">
-                        <img src={require('../../img/product-2.jpg')} />
-                        <h4>Red Printed T-Shirt</h4>
-                        <div className="rating">
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        </div>
-                        <p>$50.00</p>
-                    </div>
-
-                    <div className="col-4">
-                        <img src={require('../../img/product-3.jpg')} />
-                        <h4>Red Printed T-Shirt</h4>
-                        <div className="rating">
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        </div>
-                        <p>$50.00</p>
-                    </div>
-
-                    <div className="col-4">
-                        <img src={require('../../img/product-4.jpg')} />
-                        <h4>Red Printed T-Shirt</h4>
-                        <div className="rating">
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                            <FontAwesomeIcon icon={faStar} className="fa-star" />
-                        </div>
-                        <p>$50.00</p>
-                    </div>
+                    {displayFeatured()}
                 </div>
             </section>
 
