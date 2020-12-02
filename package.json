@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/App",
+    "start": "node server/index.js",
     "client": "cd client && npm run start",
     "server": "nodemon server/index --ignore client/",
     "client-install": "cd client && npm install",
