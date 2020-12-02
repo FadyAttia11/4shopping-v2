@@ -1,6 +1,6 @@
 const app = require('./App')
 const path = require('path')
-
+const express = require('express')
 
 //serve static assets if in production (serve the react app) ==> (have to add heroku-postbuild to package.json)
 if(process.env.NODE_ENV === 'production'){
